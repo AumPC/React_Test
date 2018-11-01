@@ -1,0 +1,45 @@
+.sidebar {
+	background-color: #5C6F68;
+}
+
+.bar-item {
+	padding: 8px 16px;
+	display: block;
+	outline: 0;
+	text-align: center;
+}
+
+.bar-item.head {
+	font-size: 50px;
+}
+
+.bar-item.children {
+	font-size: 25px;
+}
+
+.bar-item.children:hover {
+	background-color: #A7FFF6;
+}
+
+.header {
+	background-color: #8AA39B;
+}
+
+.footer {
+	background-color: #95D9C3;
+}
+
+.container1 {
+	display: grid;
+	grid-template-rows: 20fr 1fr;
+}
+
+.container2 {
+	display: grid;
+	grid-template-columns: 25% 75%;
+}
+
+.container3 {
+	display: grid;
+	grid-template-rows: 1fr 10fr;
+}

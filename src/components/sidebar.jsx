@@ -18,7 +18,8 @@ class Sidebar extends Component {
 				<div className='bar-item head'>{this.state.nowPage}</div>
 				<div className='line' />
 				{this.state.buttons.map(item => 
-					<div	onClick={(e) => this.handleItems(item)}
+					<div
+						onClick={(e) => this.handleItems(item)}
 						className='bar-item children'
 						key={item}>
 						{item}

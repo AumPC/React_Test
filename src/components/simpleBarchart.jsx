@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {VictoryBar, VictoryChart, VictoryAxis, VictoryTheme} from 'victory';
 
-const data = [
-			{method: 'POST', amount: 3000},
-			{method: 'GET', amount: 2500}
-];
+// const data = [
+// 			{method: 'POST', amount: 3000},
+// 			{method: 'GET', amount: 2500}
+// ];
 
 class SimpleBarchart extends Component {
 	state = {
@@ -17,15 +17,15 @@ class SimpleBarchart extends Component {
 				theme={VictoryTheme.material}
 				domainPadding = {30}>
 				<VictoryAxis
-					tickValues = {[1, 2]}
-					tickFormat = {['POST', 'GET']}
+					tickValues = {this.props.tickValues}
+					tickFormat = {this.props.data.map((d) => d.method)}
 					/>
 				<VictoryAxis
 					dependentAxis
 					tickFormat = {(x) => (`${x}`)}
 					/>
 				<VictoryBar 
-					data = {data}
+					data = {this.props.data}
 					alignment = 'middle'
 					animate = {{
 						duration: 1000,

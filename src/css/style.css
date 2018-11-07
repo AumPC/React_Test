@@ -33,6 +33,8 @@
 
 .header {
 	background-color: #8AA39B;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
 }
 
 .footer {

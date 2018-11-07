@@ -25,7 +25,7 @@ class UploadFile extends Component {
 
 	fileUpload(file) {
 		// const url = 'http://localhost:3000/';
-		const url = '/public/';
+		const url = '/public/logs';
 		const formData = new FormData();
 		formData.append('file',file)
 		const config = {

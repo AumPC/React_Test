@@ -1,13 +1,43 @@
 import React, {Component} from 'react';
-import Simplearchart from './simpleBarchart';
+import SimpleBarchart from './simpleBarchart';
 import TimeSeriesLineChart from './timeSeriesLineChart';
 
 class Body extends Component {
 	state = {
-		data: [
-			{method: 'POST', amount: 2500},
-			{method: 'GET', amount: 3000}
-		],
+		dataGet: [
+		{
+			time: '1-Nov',
+			amount: 3000
+		},
+		{
+			time: '2-Nov',
+			amount: 2300
+		},
+		{
+			time: '3-Nov',
+			amount: 2000
+		},
+		{
+			time: '4-Nov',
+			amount: 2900
+		}],
+		dataPost: [
+		{
+			time: '1-Nov',
+			amount: 3000
+		},
+		{
+			time: '2-Nov',
+			amount: 2500
+		},
+		{
+			time: '3-Nov',
+			amount: 3300
+		},
+		{
+			time: '4-Nov',
+			amount: 2900
+		}],
 		dataTime: [
 			{
 				data: [
@@ -24,7 +54,8 @@ class Body extends Component {
 				{x: 4, y: 340}]
 			}
 		],
-		tickValues: [1, 2],
+		tickXValues: [0, 1, 2, 3],
+		tickYValues: [1000, 2000, 3000, 4000, 5000, 6000, 7000],
 		label_x: 'Time',
 		label_y: 'Requests'
 	};
@@ -32,9 +63,11 @@ class Body extends Component {
 	render () {
 		return (
 			<div className='body-container'>
-				<Simplearchart 
-					data={this.state.data}
-					tickValues={this.state.tickValues}
+				<SimpleBarchart 
+					dataGet={this.state.dataGet}
+					dataPost={this.state.dataPost}
+					tickXValues={this.state.tickXValues}
+					tickYValues={this.state.tickYValues}
 				/>
 				<TimeSeriesLineChart 
 					data={this.state.dataTime}

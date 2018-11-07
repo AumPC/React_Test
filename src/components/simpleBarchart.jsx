@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {VictoryBar, VictoryChart, VictoryAxis, VictoryTheme} from 'victory';
-
-// const data = [
-// 			{method: 'POST', amount: 3000},
-// 			{method: 'GET', amount: 2500}
-// ];
+import {VictoryBar,
+		VictoryLegend, 
+		VictoryLabel,
+		VictoryChart, 
+		VictoryAxis, 
+		VictoryTheme, 
+		VictoryStack} from 'victory';
 
 class SimpleBarchart extends Component {
 	state = {
@@ -12,29 +13,75 @@ class SimpleBarchart extends Component {
 	};
 
 	render () {
+		let t = this.props.tickYValues
 		return (
 			<VictoryChart
 				theme={VictoryTheme.material}
-				domainPadding = {30}>
+				minDomain = {{x: 0, y: 0}}
+				maxDomain = {{x: 4, y: 7000}}
+				>
 				<VictoryAxis
-					tickValues = {this.props.tickValues}
-					tickFormat = {this.props.data.map((d) => d.method)}
-					/>
+					tickValues = {this.props.tickXValues}
+					tickFormat = {this.props.dataGet.map((d) => d.time)}
+					label = {'Time'}
+					axisLabelComponent={<VictoryLabel dy={20}/>} />
 				<VictoryAxis
 					dependentAxis
-					tickFormat = {(x) => (`${x}`)}
+					tickValues = {this.props.tickYValues}
+					tickFormat = {(t) => `${Math.round(t/1000)}k`}
+					label = {'Requests'}
+					axisLabelComponent={<VictoryLabel dy={-30}/>}
 					/>
-				<VictoryBar 
-					data = {this.props.data}
-					alignment = 'middle'
+				<VictoryLegend
+					x={100}
+					y={0}
+					title='Legend'
+					centerTitle
+					orientation='horizontal'
+					style={{
+						border: { stroke: 'black' },
+						title: {fontSize: 20}
+					}}
+					gutter={20}
+					data={[
+						{name: 'GET', symbol: { fill: '#A3C3D9' }},
+						{name: 'POST', symbol: { fill: '#CCD6EB' }}
+						]}
+				/>
+				<VictoryStack
+					colorScale = {['#A3C3D9', '#CCD6EB']}
+					>
+					<VictoryBar 
+					data = {this.props.dataGet.map((d) => d)}
+					alignment = 'start'
 					animate = {{
 						duration: 1000,
 						onLoad: {duration: 750}
 					}}
-					barRatio = {0.5}
+					barRatio = {1}
+					labels={this.props.dataGet.map((d) => d.amount)}
+					labelComponent={<VictoryLabel 
+										dy={30}
+										dx={20}
+										style={{fill: 'white'}} />}
 					x = 'method'
-					y = 'amount'
-				/>
+					y = 'amount' />
+					<VictoryBar 
+					data = {this.props.dataPost.map((d) => d)}
+					alignment = 'start'
+					animate = {{
+						duration: 1000,
+						onLoad: {duration: 750}
+					}}
+					barRatio = {1}
+					labels={this.props.dataPost.map((d) => d.amount)}
+					labelComponent={<VictoryLabel 
+										dy={30}
+										dx={20}
+										style={{fill: 'white'}} />}
+					x = 'method'
+					y = 'amount' />
+				</VictoryStack>
 			</VictoryChart>
 			);
 	};

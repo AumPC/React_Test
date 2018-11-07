@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {VictoryChart,
 		VictoryLine,
-		VictoryBar,
 		VictoryAxis,
 		VictoryTheme,
-		VictoryLegend} from 'victory';
+		VictoryLegend,
+		VictoryLabel} from 'victory';
 
 class TimeSeriesLineChart extends Component {
 	state = {
@@ -23,10 +23,12 @@ class TimeSeriesLineChart extends Component {
 				}} 
 				theme={VictoryTheme.material} >
 				<VictoryAxis
-					label={this.props.label_x} />
+					label={this.props.label_x}
+					axisLabelComponent={<VictoryLabel dy={20}/>} />
 				<VictoryAxis 
 					dependentAxis 
-					label={this.props.label_y} />
+					label={this.props.label_y}
+					axisLabelComponent={<VictoryLabel dy={-30}/>}/>
 				<VictoryLegend
 					x={100}
 					y={0}

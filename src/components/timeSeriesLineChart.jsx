@@ -30,14 +30,14 @@ class TimeSeriesLineChart extends Component {
 					label={this.props.label_y}
 					axisLabelComponent={<VictoryLabel dy={-30}/>}/>
 				<VictoryLegend
-					x={100}
+					x={70}
 					y={0}
-					title='Legend'
+					title={this.props.title}
 					centerTitle
 					orientation='horizontal'
 					style={{
 						border: { stroke: 'black' },
-						title: {fontSize: 20}
+						title: {fontSize: 14}
 					}}
 					gutter={20}
 					data={[

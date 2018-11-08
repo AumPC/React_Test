@@ -6,36 +6,36 @@ class Body extends Component {
 	state = {
 		dataGet: [
 		{
-			time: '1-Nov',
+			time: 1,
 			amount: 3000
 		},
 		{
-			time: '2-Nov',
+			time: 2,
 			amount: 2300
 		},
 		{
-			time: '3-Nov',
+			time: 3,
 			amount: 2000
 		},
 		{
-			time: '4-Nov',
+			time: 4,
 			amount: 2900
 		}],
 		dataPost: [
 		{
-			time: '1-Nov',
+			time: 1,
 			amount: 3000
 		},
 		{
-			time: '2-Nov',
+			time: 2,
 			amount: 2500
 		},
 		{
-			time: '3-Nov',
+			time: 3,
 			amount: 3300
 		},
 		{
-			time: '4-Nov',
+			time: 4,
 			amount: 2900
 		}],
 		dataTime: [
@@ -54,8 +54,8 @@ class Body extends Component {
 				{x: 4, y: 340}]
 			}
 		],
-		tickXValues: [0, 1, 2, 3],
-		tickYValues: [1000, 2000, 3000, 4000, 5000, 6000, 7000],
+		tickXValues: ['1-NOV', '2-NOV', '3-NOV', '4-NOV'],
+		tickYValues: [],
 		label_x: 'Time',
 		label_y: 'Requests'
 	};
@@ -63,13 +63,15 @@ class Body extends Component {
 	render () {
 		return (
 			<div className='body-container'>
-				<SimpleBarchart 
+				<SimpleBarchart
+					title={'# of requests by time'}
 					dataGet={this.state.dataGet}
 					dataPost={this.state.dataPost}
 					tickXValues={this.state.tickXValues}
 					tickYValues={this.state.tickYValues}
 				/>
 				<TimeSeriesLineChart 
+					title={'# of Ingress&Egress by time'}
 					data={this.state.dataTime}
 					label_x={this.state.label_x}
 					label_y={this.state.label_y}

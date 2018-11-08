@@ -5,16 +5,46 @@ import Body from './body';
 import Footer from './footer';
 
 class Homepage extends Component {
-	state = {};
+	state = {
+		nowPage: 'Overview',
+		buttons: [
+				'Overview',
+				'Ingress/Egress']
+	};
+
+	componentDidUpdate(prevProps) {
+		if (this.state.nowPage !== prevProps) {
+			this.renderContent(this.state.nowPage);
+		}
+	}
+
+	handleItems = (inp) => {
+		this.setState({nowPage: inp});
+	};
+
+	renderContent = (inp) => {
+		if (inp === 'Overview') {
+			return (
+				<Body />
+				);
+		} else {
+			return (
+				<div className="body-container" />
+				);
+		}
+	};
 
 	render () {
 		return (
 			<div className='container1'>
 				<div className='container2'>
-					<Sidebar />
+					<Sidebar 
+						nowPage={this.state.nowPage}
+						buttons={this.state.buttons}
+						handleItems={this.handleItems} />
 					<div className='container3'>
 						<Header />
-						<Body />
+						{this.renderContent(this.state.nowPage)}
 					</div>
 				</div>
 				<Footer />

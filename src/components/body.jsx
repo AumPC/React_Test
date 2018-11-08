@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import SimpleBarchart from './simpleBarchart';
 import TimeSeriesLineChart from './timeSeriesLineChart';
+import ReactLoading from "react-loading";
+import axios from 'axios';
 
 class Body extends Component {
 	state = {
+		isLoading: false,
 		dataGet: [
 		{
 			time: 1,
@@ -60,7 +63,64 @@ class Body extends Component {
 		label_y: 'Requests'
 	};
 
+	componentDidMount() {
+		this.setState({ isLoading: true });
+		this.query = {
+			"size": 0,
+			"aggs" : {
+				"req_time_group" : {
+					"date_histogram" : {
+						"field" : "req_time_human",
+						"interval" : "30s"
+					},
+					"aggs" : {
+						"method_group" : {
+							"terms" : { "field" : "method.keyword" }
+						}
+					}
+				}
+			}
+		}
+		axios.get("http://10.3.132.198:9200/web-anon/_search", {
+			params: {
+				source: JSON.stringify(this.query),
+				source_content_type: 'application/json'
+				
+		}})
+		.then((res) => {
+			this.datas = {}
+			res['data']['aggregations']['req_time_group']['buckets'].forEach((data) => {
+				if( !(data['key_as_string'] in this.datas) ) {
+					this.datas[data['key_as_string']] = {};
+				} 
+				data['method_group']['buckets'].forEach((type_method) => {
+					this.datas[data['key_as_string']][type_method['key']] = type_method['doc_count'];
+				})
+			})
+			this.dataMethod = { "GET" : [], "POST" : [], "PUT" : [], "DELETE" : [], "HTTPS" : [], "HEAD" : []};
+			for(var key in this.datas) {
+				for(var methods in this.dataMethod) {
+					if( this.datas[key][methods] != undefined ) {
+						this.dataMethod[methods].push({ "date" : key, "count" : this.datas[key][methods] })
+					} else {
+						this.dataMethod[methods].push({ "date" : key, "count" : 0 })
+					}
+				}
+			}
+			console.log("E",this.dataMethod)
+			this.setState({ isLoading: false, dataMethod: this.dataMethod});
+		  })
+		.catch(error => this.setState({
+		  isLoading: false
+		}));
+	  }	
+
 	render () {
+		
+		if (this.state.isLoading) {
+			return <ReactLoading type="spinningBubbles" color="black"/>;
+		}
+
 		return (
 			<div className='body-container'>
 				<SimpleBarchart

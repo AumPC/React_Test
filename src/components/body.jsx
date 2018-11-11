@@ -9,8 +9,7 @@ class Body extends Component {
 
 	state = {
 		isLoadingMethod: false,
-		isLoadingEgress: false,
-		isLoadingIngress: false,
+		isLoadingReq: false,
 		dataMethod: {},
 		dataReq: { Egress: [], Ingress: [] },
 		tickXBar: [],
@@ -18,7 +17,7 @@ class Body extends Component {
 	};
 
 	componentDidMount() {
-		this.setState({ isLoadingMethod: true, isLoadingEgress: true, isLoadingIngress: true })
+		this.setState({ isLoadingMethod: true, isLoadingReq: true })
 		this.get_method_stack()
 		this.get_req_count()
 	}
@@ -89,8 +88,8 @@ class Body extends Component {
 			if (datekey in ingressRes) { this.dataReq.Ingress.push({ "date": datekey, "count": ingressRes[datekey] })
 							} else { this.dataReq.Ingress.push({ "date": datekey, "count": 0 }) }
 		});
-		console.log("DataReq", this.dataReq, Object.keys(date))
-		await this.setState({ isLoadingReq: false, dataReq: this.dataReq, tickXLine: Object.keys(date) })		
+		console.log("DataReq", this.dataReq, date)
+		await this.setState({ isLoadingReq: false, dataReq: this.dataReq, tickXLine: date })		
 	}
 
 	async get_count(types, query) {
@@ -127,7 +126,7 @@ class Body extends Component {
 	}
 
 	render() {
-		if (this.isLoadingMethod || this.isLoadingEgress || this.isLoadingIngress) {
+		if (this.state.isLoadingMethod || this.state.isLoadingReq) {
 			return <ReactLoading type="spinningBubbles" color="black"/>;
 		}
 

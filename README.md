@@ -1,13 +1,21 @@
 # Web_Access_Discovering_Analytic
 
-### Frontend
-- installation
+### Frontend - React
+- Installation
 ```
 npm install
 ```
-- development
+- Development
 ```
 npm start
 ```
 
-### Backend
+### Backend - ExpressJS
+- Installation
+```
+npm install
+```
+- Development
+```
+npm start
+```

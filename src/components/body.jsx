@@ -11,12 +11,30 @@ class Body extends Component {
 		isLoadingMethod: false,
 		isLoadingEgress: false,
 		isLoadingIngress: false,
-		dataMethod: {},
-		dataReq: { Egress: [], Ingress: [] },
-		tickXBar: [],
+		dataMethod: [],
+		dataName: [],
+		dataLegend: [
+			{name: 'GET', symbol: {fill: "#005792"}},
+			{name: 'POST', symbol: {fill: "#53cde2"}},
+			{name: 'DELETE', symbol: {fill: "green"}},
+			{name: 'HTTPS', symbol: {fill: "#d1e0fa"}},
+			{name: 'HEAD', symbol: {fill: "red"}}
+		],
+		dataGet: [],
+		dataPost: [],
+		dataDelete: [],
+		dataHttps: [],
+		dataHead: [],
+		dataX: 'date',
+		dataY: 'count',
+		dataReq: { Egress: [], Ingress: [] }
 	};
 
 	componentDidMount() {
+		this.get_all_data();
+	}
+
+	get_all_data() {
 		this.setState({ isLoadingMethod: true, isLoadingEgress: true, isLoadingIngress: true })
 		this.get_method_stack()
 		this.get_egress_count()
@@ -56,21 +74,37 @@ class Body extends Component {
 						this.datas[data['key_as_string']][type_method['key']] = type_method['doc_count'];
 					})
 				})
-				this.dataMethod = { "GET": [], "POST": [], "PUT": [], "DELETE": [], "HTTPS": [], "HEAD": [] };
-				for (var key in this.datas) {
-					for (var methods in this.dataMethod) {
-						if (this.datas[key][methods] != undefined) {
-							this.dataMethod[methods].push({ "date": key, "count": this.datas[key][methods] })
-						} else {
-							this.dataMethod[methods].push({ "date": key, "count": 0 })
+				this.allMethods = ["GET", "POST", "DELETE", "HTTPS", "HEAD"];
+				this.dataMethod = {"GET": [], "POST": [], "PUT": [], "DELETE": [], "HTTPS": [], "HEAD": []};
+					for (var key in this.datas) {
+						// console.log('key: ', key);
+						for (var method in this.dataMethod) {
+							// console.log('methis', method)
+							// console.log('met', this.datas[key][method])
+							if (this.datas[key][method] !== undefined) {
+								// console.log('before', this.dataMethod[method]);
+								// console.log('input', { "date": key, "count": this.datas[key][method] })
+								this.dataMethod[method].push({ "date": key, "count": this.datas[key][method] });
+								// console.log('after', this.dataMethod);
+								// console.log('after', this.dataMethod[method]);
+							} else {
+								this.dataMethod[method].push({ "date": key, "count": 0 });
+							}
 						}
-					}
-				}
-				console.log("Method", this.dataMethod)
-				this.setState({ isLoadingMethod: false, dataMethod: this.dataMethod })
+					};
+				this.setState({ isLoadingMethod: false, 
+								dataMethod: this.dataMethod,
+								dataName: this.allMethods,
+								dataGet: this.dataMethod['GET'],
+								dataPost: this.dataMethod['POST'],
+								dataDelete: this.dataMethod['DELETE'],
+								dataHttps: this.dataMethod['HTTPS'],
+								dataHead: this.dataMethod['HEAD'] });
+				// console.log('state data method',this.state.dataMethod);
 			})
 			.catch(error => this.setState({ isLoadingMethod: false }));
-	}
+			// console.log(this.state.dataMethod);
+	}		
 
 	get_egress_count() {
 		this.queryEgress = {
@@ -110,7 +144,6 @@ class Body extends Component {
 				this.datas = res['data']['aggregations']['req_time_group']['buckets'].map(data => {
 					return { "date": data['key_as_string'], "count": data['doc_count'] };
 				});
-				console.log("Egress", this.datas)
 				let dataTemp = this.state.dataReq
 				dataTemp.Egress = this.datas
 				this.setState({ isLoadingEgress: false, dataReq : dataTemp })
@@ -158,7 +191,6 @@ class Body extends Component {
 				this.datas = res['data']['aggregations']['req_time_group']['buckets'].map(data => {
 					return { "date": data['key_as_string'], "count": data['doc_count'] };
 				});
-				console.log("Ingress", this.datas)
 				let dataTemp = this.state.dataReq
 				dataTemp.Ingress = this.datas
 				this.setState({ isLoadingIngress: false, dataReq : dataTemp })
@@ -166,26 +198,36 @@ class Body extends Component {
 			.catch(error => this.setState({ isLoadingIngress: false }));
 	}
 
-	render() {
+	checkLoading() {
 		if (this.isLoadingMethod || this.isLoadingEgress || this.isLoadingIngress) {
 			return <ReactLoading type="spinningBubbles" color="black"/>;
-		}
-		
-		return (
-			<div className='body-container'>
-				{/* <SimpleBarchart
+		} else {
+			return (
+				<div className='body-container'>
+				<SimpleBarchart
 					title={'# of requests by time'}
+					dataMethod={this.state.dataMethod}
+					dataName={this.state.dataName}
+					dataLegend={this.state.dataLegend}
 					dataGet={this.state.dataGet}
 					dataPost={this.state.dataPost}
-					tickXValues={this.state.tickXBar}
-					tickYValues=[]
+					dataDelete={this.state.dataDelete}
+					dataHttps={this.state.dataHttps}
+					dataHead={this.state.dataHead}
+					dataX={this.state.dataX}
+					dataY={this.state.dataY}
 				/>
-				<TimeSeriesLineChart 
-					title={'# of Ingress&Egress by time'}
-					data={this.state.dataTime}
-					label_x="Time"
-					label_y="Request"
-				/> */}
+				</div>
+				);
+		}
+	}
+
+	render() {
+		let barcharts = this.checkLoading();
+		
+		return (
+			<div>
+			{barcharts}
 			</div>
 		);
 	};

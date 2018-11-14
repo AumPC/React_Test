@@ -12,92 +12,81 @@ class SimpleBarchart extends Component {
 
 	};
 
+	componentDidMount() {
+
+	}
+
 	render () {
-		let t = this.props.tickYValues
-		console.log(this.props.dataGet.map((d) => d.time))
-		console.log(this.props.tickXValues)
+		console.log(this.props.dataName)
 		return (
-			<VictoryChart
-				theme={VictoryTheme.material}
-				minDomain={{x: 0, y: 0}}
-				domainPadding={{y: 50}}
-				>
-				<VictoryAxis
-					tickValues = {this.props.dataGet.map((d) => d.time)}
-					tickFormat = {this.props.tickXValues}
-					label = {'Time'}
-					axisLabelComponent={<VictoryLabel dy={20} />}
-					tickLabelComponent={<VictoryLabel 
-											style={{fontSize: 8}}
-											dy={-5} />}
-					/>
-				<VictoryAxis
-					dependentAxis
-					tickValues = {this.props.tickYValues}
-					tickFormat = {(t) => `${Math.round(t/1000)}k`}
-					label = {'Requests'}
-					axisLabelComponent={<VictoryLabel dy={-20} />}
-					tickLabelComponent={<VictoryLabel 
-											style={{fontSize: 10}}
-											dx={5} />}
-					/>
+			<div>
+			<VictoryChart >
 				<VictoryLegend
-					x={100}
-					y={0}
-					title={this.props.title}
+					x = {50}
+					y = {0}
+					gutter = {20}
+					title = {this.props.title}
+					data = {this.props.dataLegend}
 					centerTitle
-					orientation='horizontal'
+					orientation = "horizontal"
 					style={{
 						border: { stroke: 'black' },
-						title: {fontSize: 14}
-					}}
-					gutter={20}
-					data={[
-						{name: 'GET', symbol: { fill: '#A3C3D9' }},
-						{name: 'POST', symbol: { fill: '#CCD6EB' }}
-						]}
-				/>
-				<VictoryStack
-					colorScale = {['#A3C3D9', '#CCD6EB']}
-					domainPadding = {{x: 10}}
-					>
+						title: {fontSize: 10}
+					}} />
+				<VictoryStack>
 					<VictoryBar 
-					data = {this.props.dataGet.map((d) => d)}
-					alignment = 'middle'
-					animate = {{
-						duration: 1000,
-						onLoad: {duration: 750}
-					}}
-					barRatio = {1}
-					labels={this.props.dataGet.map((d) => d.amount)}
-					labelComponent={<VictoryLabel 
-										dy={30}
-										dx={0}
-										style={{fill: '#000',
-												fontSize: '10'}} />}
-					x = 'time'
-					y = 'amount' 
-					/>
+						alignment = 'start'
+						data = {this.props.dataGet}
+						name = {this.props.dataName[0]}
+						labels ={(d) => `${d.count}`}
+						style = {{
+							data: {fill: "#005792"}
+						}}
+						x = {this.props.dataX}
+						y = {this.props.dataY} />
 					<VictoryBar 
-					data = {this.props.dataPost.map((d) => d)}
-					cornerRadius={5}
-					alignment = 'middle'
-					animate = {{
-						duration: 1000,
-						onLoad: {duration: 750}
-					}}
-					barRatio = {1}
-					labels={this.props.dataPost.map((d) => d.amount)}
-					labelComponent={<VictoryLabel 
-										dy={30}
-										dx={0}
-										style={{fill: '#000',
-												fontSize: '10'}} />}
-					x = 'time'
-					y = 'amount' 
-					/>
+						alignment = 'start'
+						data = {this.props.dataPost}
+						name = {this.props.dataName[1]}
+						labels ={(d) => `${d.count}`}
+						style = {{
+							data: {fill: "#53cde2"}
+						}}
+						x = {this.props.dataX}
+						y = {this.props.dataY} />
+					<VictoryBar 
+						alignment = 'start'
+						data = {this.props.dataDelete}
+						name = {this.props.dataName[2]}
+						labels ={(d) => `${d.count}`}
+						style = {{
+							data: {fill: "green"}
+						}}
+						x = {this.props.dataX}
+						y = {this.props.dataY} />
+					<VictoryBar 
+						alignment = 'start'
+						data = {this.props.dataHttps}
+						name = {this.props.dataName[3]}
+						labels ={(d) => `${d.count}`}
+						style = {{
+							data: {fill: "#d1e0fa"}
+						}}
+						x = {this.props.dataX}
+						y = {this.props.dataY} />
+					<VictoryBar 
+						alignment = 'start'
+						data = {this.props.dataHead}
+						name = {this.props.dataName[4]}
+						labels ={(d) => `${d.count}`}
+						style = {{
+							data: {fill: "red"}
+						}}
+						x = {this.props.dataX}
+						y = {this.props.dataY} />
 				</VictoryStack>
 			</VictoryChart>
+			</div>
 			);
 	};
 };

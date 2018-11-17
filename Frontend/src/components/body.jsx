@@ -9,15 +9,21 @@ class Body extends Component {
 
 	state = {
 		isLoadingMethod: false,
-		isLoadingReq: false,
-		dataMethod: {},
-		dataReq: { Egress: [], Ingress: [] },
-		tickXBar: [],
-		tickXLine: [],
+		isLoadingEgress: false,
+		isLoadingIngress: false,
+		dataMethod: {"GET": [], "HEAD": [], "POST": [], "POST": [], "DELETE": [], "CONNECT": [], "OPTIONS": [], "TRACE": [], "PATCH": []},
+		dataLegend: ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH"],
+		dataDate: [],
+		xAxis: [100, 200, 300],
+		dataReq: { Egress: [], Ingress: [] }
 	};
 
 	componentDidMount() {
-		this.setState({ isLoadingMethod: true, isLoadingReq: true })
+		this.get_all_data();
+	}
+
+	get_all_data() {
+		this.setState({ isLoadingMethod: true, isLoadingEgress: true, isLoadingIngress: true })
 		this.get_method_stack()
 		this.get_req_count()
 	}
@@ -56,21 +62,36 @@ class Body extends Component {
 						this.datas[data['key_as_string']][type_method['key']] = type_method['doc_count'];
 					})
 				})
-				this.dataMethod = { "GET": [], "POST": [], "PUT": [], "DELETE": [], "HTTPS": [], "HEAD": [] };
-				for (var key in this.datas) {
-					for (var methods in this.dataMethod) {
-						if (this.datas[key][methods] !== undefined) {
-							this.dataMethod[methods].push({ "date": key, "count": this.datas[key][methods] })
-						} else {
-							this.dataMethod[methods].push({ "date": key, "count": 0 })
+				this.dataDate = [];
+				this.allMethods = ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH"];
+				this.dataMethod = {"GET": [], "HEAD": [], "POST": [], "POST": [], "DELETE": [], "CONNECT": [], "OPTIONS": [], "TRACE": [], "PATCH": []};
+					for (var key in this.datas) {
+						// console.log('key: ', key);
+						this.dataDate.push(key);
+						for (var method in this.dataMethod) {
+							// console.log('methis', method)
+							// console.log('met', this.datas[key][method])
+							if (this.datas[key][method] !== undefined) {
+								// console.log('before', this.dataMethod[method]);
+								// console.log('input', { "date": key, "count": this.datas[key][method] })
+								// this.dataMethod[method].push({ "date": key, "count": this.datas[key][method] });
+								this.dataMethod[method].push(this.datas[key][method]);
+								// console.log('after', this.dataMethod);
+								// console.log('after', this.dataMethod[method]);
+							} else {
+								// this.dataMethod[method].push({ "date": key, "count": 0 });
+								this.dataMethod[method].push(0);
+							}
 						}
-					}
-				}
-				console.log("DataMethod", this.dataMethod, Object.keys(this.datas))
-				this.setState({ isLoadingMethod: false, dataMethod: this.dataMethod, tickXBar: Object.keys(this.datas) })
+					};
+				this.setState({ isLoadingMethod: false, 
+								dataMethod: this.dataMethod,
+								dataDate: this.dataDate });
+				// console.log('state data method',this.state.dataMethod);
 			})
 			.catch(error => this.setState({ isLoadingMethod: false }));
-	}
+			// console.log(this.state.dataMethod);
+	}		
 
 	async get_req_count() {
 		let egressRes = await this.get_count("Egress",  	[ { "regexp": { "src_ip.keyword": "158.108.*"	} }, 
@@ -125,26 +146,29 @@ class Body extends Component {
 		})
 	}
 
-	render() {
-		if (this.state.isLoadingMethod || this.state.isLoadingReq) {
+	checkLoading() {
+		if (this.isLoadingMethod || this.isLoadingEgress || this.isLoadingIngress) {
 			return <ReactLoading type="spinningBubbles" color="black"/>;
+		} else {
+			return (
+				<div className='body-container'>
+				<SimpleBarchart 
+					title = "# of requests method by time"
+					dataLegend = {this.state.dataLegend}
+					dataDate = {this.state.dataDate}
+					dataMethod = {this.state.dataMethod} />
+				</div>
+				);
 		}
+	}
 
+	render() {
+		let barcharts = this.checkLoading();
+		
 		return (
-			<div className='body-container'>
-				{/* <SimpleBarchart
-					title={'# of requests by time'}
-					dataGet={this.state.dataGet}
-					dataPost={this.state.dataPost}
-					tickXValues={this.state.tickXBar}
-					tickYValues=[]
-				/>
-				<TimeSeriesLineChart 
-					title={'# of Ingress&Egress by time'}
-					data={this.state.dataTime}
-					label_x="Time"
-					label_y="Request"
-				/> */}
+			<div className="body-container">
+				{barcharts}
+
 			</div>
 		);
 	};

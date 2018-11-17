@@ -1,91 +1,168 @@
 import React, {Component} from 'react';
-import {VictoryBar,
-		VictoryLegend, 
-		VictoryLabel,
-		VictoryChart, 
-		VictoryAxis, 
-		VictoryTheme, 
-		VictoryStack} from 'victory';
+import ReactEcharts from 'echarts-for-react';
+
 
 class SimpleBarchart extends Component {
 	state = {
-
+		color: ['#B3E5FC', '#81D4FA', '#4FC3F7', '#29B6F6', '#03A9F4', '#039BE5', '#0288D1', '#0277BD', '#01579B'],
+		option: {
+			
+		}
 	};
 
 	componentDidMount() {
-
+		this.setOption();
 	}
 
+	componentDidUpdate(prevProps) {
+		if (this.props.dataDate !== prevProps.dataDate) {
+			console.log('true')
+			this.setOption();
+		}
+	};
+
+	setOption = () => {
+		this.setState({
+			option: {
+				legend: {
+					data: this.props.dataLegend,
+					algin: 'left'
+					},
+				grid: {
+					left: '3%',
+					right: '4%',
+					bottom: '3%',
+					containLabel: true
+				},
+				tooltip: {
+					trigger: 'axis',
+					axisPointer : {
+						type : 'shadow'
+					}
+				},
+				xAxis: {
+					name: 'Time',
+					type: 'category',
+					data: this.props.dataDate,
+					axisLabel: {
+						// rotate: 45,
+						fontSize: 8
+					}
+				},
+				yAxis: {
+					name: 'requests',
+					type: 'value'
+				},
+				series: [{
+					name: 'GET',
+					type: 'bar',
+					stack: 'stackBar',
+					label: {
+						normal: {
+							show: false,
+						}
+					},
+					data: this.props.dataMethod['GET']
+				},
+				{
+					name: 'HEAD',
+					type: 'bar',
+					stack: 'stackBar',
+					label: {
+						normal: {
+							show: false,
+						}
+					},
+					data: this.props.dataMethod['HEAD']
+				},
+				{
+					name: 'POST',
+					type: 'bar',
+					stack: 'stackBar',
+					label: {
+						normal: {
+							show: false,
+						}
+					},
+					data: this.props.dataMethod['POST']
+				},
+				{
+					name: 'PUT',
+					type: 'bar',
+					stack: 'stackBar',
+					label: {
+						normal: {
+							show: false,
+						}
+					},
+					data: this.props.dataMethod['PUT']
+				},
+				{
+					name: 'DELETE',
+					type: 'bar',
+					stack: 'stackBar',
+					label: {
+						normal: {
+							show: false,
+						}
+					},
+					data: this.props.dataMethod['DELETE']
+				},
+				{
+					name: 'CONNECT',
+					type: 'bar',
+					stack: 'stackBar',
+					label: {
+						normal: {
+							show: false,
+						}
+					},
+					data: this.props.dataMethod['CONNECT']
+				},
+				{
+					name: 'OPTIONS',
+					type: 'bar',
+					stack: 'stackBar',
+					label: {
+						normal: {
+							show: false,
+						}
+					},
+					data: this.props.dataMethod['OPTIONS']
+				},
+				{
+					name: 'TRACE',
+					type: 'bar',
+					stack: 'stackBar',
+					label: {
+						normal: {
+							show: false,
+						}
+					},
+					data: this.props.dataMethod['TRACE']
+				},
+				{
+					name: 'PATCH',
+					type: 'bar',
+					stack: 'stackBar',
+					label: {
+						normal: {
+							show: false,
+						}
+					},
+					data: this.props.dataMethod['PATCH']
+				},
+				]
+			}}, this.render);
+	};
+
 	render () {
-		console.log(this.props.dataName)
+		// console.log('legend', this.props.dataLegend)
+		// console.log(this.props.dataDate);
+		// console.log(this.props.dataMethod['GET'][0]);
 		return (
 			<div>
-			<VictoryChart >
-				<VictoryLegend
-					x = {50}
-					y = {0}
-					gutter = {20}
-					title = {this.props.title}
-					data = {this.props.dataLegend}
-					centerTitle
-					orientation = "horizontal"
-					style={{
-						border: { stroke: 'black' },
-						title: {fontSize: 10}
-					}} />
-				<VictoryStack>
-					<VictoryBar 
-						alignment = 'start'
-						data = {this.props.dataGet}
-						name = {this.props.dataName[0]}
-						labels ={(d) => `${d.count}`}
-						style = {{
-							data: {fill: "#005792"}
-						}}
-						x = {this.props.dataX}
-						y = {this.props.dataY} />
-					<VictoryBar 
-						alignment = 'start'
-						data = {this.props.dataPost}
-						name = {this.props.dataName[1]}
-						labels ={(d) => `${d.count}`}
-						style = {{
-							data: {fill: "#53cde2"}
-						}}
-						x = {this.props.dataX}
-						y = {this.props.dataY} />
-					<VictoryBar 
-						alignment = 'start'
-						data = {this.props.dataDelete}
-						name = {this.props.dataName[2]}
-						labels ={(d) => `${d.count}`}
-						style = {{
-							data: {fill: "green"}
-						}}
-						x = {this.props.dataX}
-						y = {this.props.dataY} />
-					<VictoryBar 
-						alignment = 'start'
-						data = {this.props.dataHttps}
-						name = {this.props.dataName[3]}
-						labels ={(d) => `${d.count}`}
-						style = {{
-							data: {fill: "#d1e0fa"}
-						}}
-						x = {this.props.dataX}
-						y = {this.props.dataY} />
-					<VictoryBar 
-						alignment = 'start'
-						data = {this.props.dataHead}
-						name = {this.props.dataName[4]}
-						labels ={(d) => `${d.count}`}
-						style = {{
-							data: {fill: "red"}
-						}}
-						x = {this.props.dataX}
-						y = {this.props.dataY} />
-				</VictoryStack>
-			</VictoryChart>
+			<ReactEcharts option={this.state.option} />
 			</div>
 			);
 	};

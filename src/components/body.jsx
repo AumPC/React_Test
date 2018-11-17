@@ -11,22 +11,10 @@ class Body extends Component {
 		isLoadingMethod: false,
 		isLoadingEgress: false,
 		isLoadingIngress: false,
-		dataMethod: [],
-		dataName: [],
-		dataLegend: [
-			{name: 'GET', symbol: {fill: "#005792"}},
-			{name: 'POST', symbol: {fill: "#53cde2"}},
-			{name: 'DELETE', symbol: {fill: "green"}},
-			{name: 'HTTPS', symbol: {fill: "#d1e0fa"}},
-			{name: 'HEAD', symbol: {fill: "red"}}
-		],
-		dataGet: [],
-		dataPost: [],
-		dataDelete: [],
-		dataHttps: [],
-		dataHead: [],
-		dataX: 'date',
-		dataY: 'count',
+		dataMethod: {"GET": [], "HEAD": [], "POST": [], "POST": [], "DELETE": [], "CONNECT": [], "OPTIONS": [], "TRACE": [], "PATCH": []},
+		dataLegend: ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH"],
+		dataDate: [],
+		xAxis: [100, 200, 300],
 		dataReq: { Egress: [], Ingress: [] }
 	};
 
@@ -74,32 +62,31 @@ class Body extends Component {
 						this.datas[data['key_as_string']][type_method['key']] = type_method['doc_count'];
 					})
 				})
-				this.allMethods = ["GET", "POST", "DELETE", "HTTPS", "HEAD"];
-				this.dataMethod = {"GET": [], "POST": [], "PUT": [], "DELETE": [], "HTTPS": [], "HEAD": []};
+				this.dataDate = [];
+				this.allMethods = ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH"];
+				this.dataMethod = {"GET": [], "HEAD": [], "POST": [], "POST": [], "DELETE": [], "CONNECT": [], "OPTIONS": [], "TRACE": [], "PATCH": []};
 					for (var key in this.datas) {
 						// console.log('key: ', key);
+						this.dataDate.push(key);
 						for (var method in this.dataMethod) {
 							// console.log('methis', method)
 							// console.log('met', this.datas[key][method])
 							if (this.datas[key][method] !== undefined) {
 								// console.log('before', this.dataMethod[method]);
 								// console.log('input', { "date": key, "count": this.datas[key][method] })
-								this.dataMethod[method].push({ "date": key, "count": this.datas[key][method] });
+								// this.dataMethod[method].push({ "date": key, "count": this.datas[key][method] });
+								this.dataMethod[method].push(this.datas[key][method]);
 								// console.log('after', this.dataMethod);
 								// console.log('after', this.dataMethod[method]);
 							} else {
-								this.dataMethod[method].push({ "date": key, "count": 0 });
+								// this.dataMethod[method].push({ "date": key, "count": 0 });
+								this.dataMethod[method].push(0);
 							}
 						}
 					};
 				this.setState({ isLoadingMethod: false, 
 								dataMethod: this.dataMethod,
-								dataName: this.allMethods,
-								dataGet: this.dataMethod['GET'],
-								dataPost: this.dataMethod['POST'],
-								dataDelete: this.dataMethod['DELETE'],
-								dataHttps: this.dataMethod['HTTPS'],
-								dataHead: this.dataMethod['HEAD'] });
+								dataDate: this.dataDate });
 				// console.log('state data method',this.state.dataMethod);
 			})
 			.catch(error => this.setState({ isLoadingMethod: false }));
@@ -204,19 +191,11 @@ class Body extends Component {
 		} else {
 			return (
 				<div className='body-container'>
-				<SimpleBarchart
-					title={'# of requests by time'}
-					dataMethod={this.state.dataMethod}
-					dataName={this.state.dataName}
-					dataLegend={this.state.dataLegend}
-					dataGet={this.state.dataGet}
-					dataPost={this.state.dataPost}
-					dataDelete={this.state.dataDelete}
-					dataHttps={this.state.dataHttps}
-					dataHead={this.state.dataHead}
-					dataX={this.state.dataX}
-					dataY={this.state.dataY}
-				/>
+				<SimpleBarchart 
+					title = "# of requests method by time"
+					dataLegend = {this.state.dataLegend}
+					dataDate = {this.state.dataDate}
+					dataMethod = {this.state.dataMethod} />
 				</div>
 				);
 		}
@@ -226,8 +205,9 @@ class Body extends Component {
 		let barcharts = this.checkLoading();
 		
 		return (
-			<div>
-			{barcharts}
+			<div className="body-container">
+				{barcharts}
+
 			</div>
 		);
 	};

@@ -16,7 +16,6 @@ class SimpleBarchart extends Component {
 
 	componentDidUpdate(prevProps) {
 		if (this.props.dataDate !== prevProps.dataDate) {
-			console.log('true')
 			this.setOption();
 		}
 	};
@@ -51,7 +50,10 @@ class SimpleBarchart extends Component {
 				},
 				yAxis: {
 					name: 'requests',
-					type: 'value'
+					type: 'value',
+					axisLabel: {
+						formatter: '{value} req'
+					}
 				},
 				series: [{
 					name: 'GET',
@@ -162,7 +164,7 @@ class SimpleBarchart extends Component {
 		// console.log(this.props.dataMethod['GET'][0]);
 		return (
 			<div>
-			<ReactEcharts option={this.state.option} />
+				<ReactEcharts option={this.state.option} />
 			</div>
 			);
 	};

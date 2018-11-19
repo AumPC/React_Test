@@ -3,7 +3,6 @@ import SimpleBarchart from './simpleBarchart';
 import TimeSeriesLineChart from './timeSeriesLineChart';
 import ReactLoading from "react-loading";
 import axios from 'axios';
-import { runInThisContext } from 'vm';
 
 class Body extends Component {
 
@@ -14,8 +13,10 @@ class Body extends Component {
 		dataMethod: {"GET": [], "HEAD": [], "POST": [], "POST": [], "DELETE": [], "CONNECT": [], "OPTIONS": [], "TRACE": [], "PATCH": []},
 		dataLegend: ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH"],
 		dataDate: [],
-		xAxis: [100, 200, 300],
-		dataReq: { Egress: [], Ingress: [] }
+		dataDateTimeSeries: [],
+		dataReq: { Egress: [], Ingress: [] },
+		dataEgress: {},
+		dataIngress: {}
 	};
 
 	componentDidMount() {
@@ -102,15 +103,34 @@ class Body extends Component {
 												])
 		let date = await Object.keys((egressRes)).concat(Object.keys((ingressRes))).reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
 		this.dataReq = { Egress: [], Ingress: [] }
+		this.dataEgress = { date: [], count: []}
+		this.dataIngress = { date: [], count: []}
 		date.forEach(datekey => {
-			if (datekey in egressRes) { this.dataReq.Egress.push({ "date": datekey, "count": egressRes[datekey] })
-							} else { this.dataReq.Egress.push({ "date": datekey, "count": 0 }) }
+			if (datekey in egressRes) { 
+				this.dataReq.Egress.push({ "date": datekey, "count": egressRes[datekey]})
+				this.dataEgress.date.push(datekey)
+				this.dataEgress.count.push(egressRes[datekey])
+			} else {
+				this.dataReq.Egress.push({ "date": datekey, "count": 0 }) 
+				this.dataEgress.date.push(datekey)
+				this.dataEgress.count.push(0)
+			}
 							
-			if (datekey in ingressRes) { this.dataReq.Ingress.push({ "date": datekey, "count": ingressRes[datekey] })
-							} else { this.dataReq.Ingress.push({ "date": datekey, "count": 0 }) }
+			if (datekey in ingressRes) { 
+				this.dataReq.Ingress.push({ "date": datekey, "count": ingressRes[datekey] })
+				this.dataIngress.date.push(datekey)
+				this.dataIngress.count.push(ingressRes[datekey])
+			} else { this.dataReq.Ingress.push({ "date": datekey, "count": 0 }) 
+				this.dataIngress.date.push(datekey)
+				this.dataIngress.count.push(0)
+			}
 		});
-		console.log("DataReq", this.dataReq, date)
-		await this.setState({ isLoadingReq: false, dataReq: this.dataReq, tickXLine: date })		
+		// console.log("DataReq", this.dataReq, date)
+		await this.setState({ isLoadingReq: false,
+								dataReq: this.dataReq,
+								dataDateTimeSeries: date,
+								dataEgress: this.dataEgress,
+								dataIngress: this.dataIngress })		
 	}
 
 	async get_count(types, query) {
@@ -141,12 +161,12 @@ class Body extends Component {
 			res['data']['aggregations']['req_time_group']['buckets'].forEach(data => {
 				this.datas[data['key_as_string']] = data['doc_count'] ;
 			});
-			console.log(types, this.datas)
+			// console.log('aaa',types, this.datas)
 			return this.datas
 		})
 	}
 
-	checkLoading() {
+	checkBarchartsIsLoading() {
 		if (this.isLoadingMethod || this.isLoadingEgress || this.isLoadingIngress) {
 			return <ReactLoading type="spinningBubbles" color="black"/>;
 		} else {
@@ -162,13 +182,31 @@ class Body extends Component {
 		}
 	}
 
+	checkTimeSeriesIsLoading() {
+		if (this.isLoadingMethod || this.isLoadingEgress || this.isLoadingIngress) {
+			return <ReactLoading type="spinningBubbles" color="black"/>;
+		} else {
+			return (
+				<div className='body-container'>
+				<TimeSeriesLineChart 
+					title = "# of requests method by time"
+					dataReq = {this.state.dataReq}
+					dataDate = {this.state.dataDateTimeSeries}
+					dataEgress = {this.state.dataEgress}
+					dataIngress = {this.state.dataIngress} />
+				</div>
+				);
+		}
+	}
+
 	render() {
-		let barcharts = this.checkLoading();
+		let barcharts = this.checkBarchartsIsLoading();
+		let timeSerires = this.checkTimeSeriesIsLoading();
 		
 		return (
 			<div className="body-container">
 				{barcharts}
-
+				{timeSerires}
 			</div>
 		);
 	};

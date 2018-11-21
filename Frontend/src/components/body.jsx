@@ -8,15 +8,11 @@ class Body extends Component {
 
 	state = {
 		isLoadingMethod: false,
-		isLoadingEgress: false,
-		isLoadingIngress: false,
-		dataMethod: {"GET": [], "HEAD": [], "POST": [], "POST": [], "DELETE": [], "CONNECT": [], "OPTIONS": [], "TRACE": [], "PATCH": []},
-		dataLegend: ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH"],
+		isLoadingReq: false,
+		dataMethod: {},
 		dataDate: [],
 		dataDateTimeSeries: [],
 		dataReq: { Egress: [], Ingress: [] },
-		dataEgress: {},
-		dataIngress: {}
 	};
 
 	async componentDidMount() {
@@ -36,7 +32,7 @@ class Body extends Component {
 	async get_req_count() {
 		await axios.get("http://localhost:8080/home/request").then((res) => {
 			console.log("DataReq", res.data.requests, res.data.date)
-			this.setState({ isLoadingReq: false, dataReq: res.data.requests, dataDate: res.data.date })
+			this.setState({ isLoadingReq: false, dataReq: res.data.requests, dataDateTimeSeries: res.data.date })
 		})
 		.catch(error => this.setState({ isLoadingReq: false }));
 	}
@@ -49,7 +45,6 @@ class Body extends Component {
 				<div className='body-container'>
 				<SimpleBarchart 
 					title = "# of requests method by time"
-					dataLegend = {this.state.dataLegend}
 					dataDate = {this.state.dataDate}
 					dataMethod = {this.state.dataMethod} />
 				</div>
@@ -66,9 +61,7 @@ class Body extends Component {
 				<TimeSeriesLineChart 
 					title = "# of requests method by time"
 					dataReq = {this.state.dataReq}
-					dataDate = {this.state.dataDateTimeSeries}
-					dataEgress = {this.state.dataEgress}
-					dataIngress = {this.state.dataIngress} />
+					dataDate = {this.state.dataDateTimeSeries} />
 				</div>
 				);
 		}

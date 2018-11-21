@@ -70,14 +70,8 @@ async function query_request(interval) {
     Ingress: []
   }
   date.forEach(datekey => {
-    this.dataReq.Egress.push({
-      "date": datekey,
-      "count": (datekey in egressRes) ? egressRes[datekey] : 0
-    })
-    this.dataReq.Ingress.push({
-      "date": datekey,
-      "count": (datekey in ingressRes) ? ingressRes[datekey] : 0
-    })
+    this.dataReq.Egress.push( (datekey in egressRes) ? egressRes[datekey] : 0 )
+    this.dataReq.Ingress.push( (datekey in ingressRes) ? ingressRes[datekey] : 0 )
   });
   console.log("DataReq", this.dataReq, date)
   return { requests: this.dataReq, date: (date) }

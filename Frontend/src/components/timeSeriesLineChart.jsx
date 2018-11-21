@@ -19,6 +19,17 @@ class TimeSeriesLineChart extends Component {
 	};
 
 	setOptions = () => {
+		this.legend = Object.keys(this.props.dataReq);
+		this.series = []
+		this.legend.forEach(data => {
+			this.series.push(
+				{
+					name: data,
+					type:'line',
+					data: this.props.dataReq[data]
+				}
+			)
+		});
 		this.setState({
 			option: {
 				title: {
@@ -51,7 +62,7 @@ class TimeSeriesLineChart extends Component {
 					}
 				},
 				legend: {
-					data:['Egress','Ingress','Data Egress', 'Data Ingress']
+					data: this.legend
 				},
 				xAxis: [
 				{
@@ -70,25 +81,14 @@ class TimeSeriesLineChart extends Component {
 				yAxis: [
 				{
 					type: 'value',
-					name: 'requests',
+					name: 'Requests',
 					min: 0,
 					axisLabel: {
 						formatter: '{value} req'
 					}
 				}
 				],
-				series: [
-				{
-					name:'Data Egress',
-					type:'line',
-					data: this.props.dataEgress['count']
-				},
-				{
-					name:'Data Ingress',
-					type:'line',
-					data: this.props.dataIngress['count']
-				}
-				]
+				series: this.series
 			}
 		});
 	}

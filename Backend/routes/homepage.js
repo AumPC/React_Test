@@ -42,20 +42,10 @@ async function query_method(interval) {
           this.datas[data['key_as_string']][type_method['key']] = type_method['doc_count'];
         })
       })
-      this.dataMethod = {
-        "GET": [],
-        "POST": [],
-        "PUT": [],
-        "DELETE": [],
-        "HTTPS": [],
-        "HEAD": []
-      };
+      this.dataMethod = {"GET": [], "HEAD": [], "POST": [], "HTTPS": [], "DELETE": [], "PUT": [], "CONNECT": [], "OPTIONS": [], "TRACE": [], "PATCH": []}
       for (var key in this.datas) {
         for (var methods in this.dataMethod) {
-          this.dataMethod[methods].push({
-            "date": key,
-            "count": (this.datas[key][methods] !== undefined) ? this.datas[key][methods] : 0
-          })
+          this.dataMethod[methods].push((this.datas[key][methods] !== undefined) ? this.datas[key][methods] : 0)
         }
       }
       console.log("DataMethod", this.dataMethod, Object.keys(this.datas))

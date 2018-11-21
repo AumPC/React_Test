@@ -21,10 +21,27 @@ class SimpleBarchart extends Component {
 	};
 
 	setOption = () => {
+		this.legend = Object.keys(this.props.dataMethod);
+		this.series = []
+		this.legend.forEach(data => {
+			this.series.push(
+				{
+					name: data,
+					type: 'bar',
+					stack: 'stackBar',
+					label: {
+						normal: {
+							show: false,
+						}
+					},
+					data: this.props.dataMethod[data]
+				}
+			)
+		});
 		this.setState({
 			option: {
 				legend: {
-					data: this.props.dataLegend,
+					data: this.legend,
 					algin: 'left'
 					},
 				grid: {
@@ -49,119 +66,17 @@ class SimpleBarchart extends Component {
 					}
 				},
 				yAxis: {
-					name: 'requests',
+					name: 'Requests',
 					type: 'value',
 					axisLabel: {
 						formatter: '{value} req'
 					}
 				},
-				series: [{
-					name: 'GET',
-					type: 'bar',
-					stack: 'stackBar',
-					label: {
-						normal: {
-							show: false,
-						}
-					},
-					data: this.props.dataMethod['GET']
-				},
-				{
-					name: 'HEAD',
-					type: 'bar',
-					stack: 'stackBar',
-					label: {
-						normal: {
-							show: false,
-						}
-					},
-					data: this.props.dataMethod['HEAD']
-				},
-				{
-					name: 'POST',
-					type: 'bar',
-					stack: 'stackBar',
-					label: {
-						normal: {
-							show: false,
-						}
-					},
-					data: this.props.dataMethod['POST']
-				},
-				{
-					name: 'PUT',
-					type: 'bar',
-					stack: 'stackBar',
-					label: {
-						normal: {
-							show: false,
-						}
-					},
-					data: this.props.dataMethod['PUT']
-				},
-				{
-					name: 'DELETE',
-					type: 'bar',
-					stack: 'stackBar',
-					label: {
-						normal: {
-							show: false,
-						}
-					},
-					data: this.props.dataMethod['DELETE']
-				},
-				{
-					name: 'CONNECT',
-					type: 'bar',
-					stack: 'stackBar',
-					label: {
-						normal: {
-							show: false,
-						}
-					},
-					data: this.props.dataMethod['CONNECT']
-				},
-				{
-					name: 'OPTIONS',
-					type: 'bar',
-					stack: 'stackBar',
-					label: {
-						normal: {
-							show: false,
-						}
-					},
-					data: this.props.dataMethod['OPTIONS']
-				},
-				{
-					name: 'TRACE',
-					type: 'bar',
-					stack: 'stackBar',
-					label: {
-						normal: {
-							show: false,
-						}
-					},
-					data: this.props.dataMethod['TRACE']
-				},
-				{
-					name: 'PATCH',
-					type: 'bar',
-					stack: 'stackBar',
-					label: {
-						normal: {
-							show: false,
-						}
-					},
-					data: this.props.dataMethod['PATCH']
-				},
-				]
+				series: this.series
 			}}, this.render);
 	};
 
 	render () {
-		// console.log('legend', this.props.dataLegend)
-		// console.log(this.props.dataDate);
-		// console.log(this.props.dataMethod['GET'][0]);
 		return (
 			<div>
 				<ReactEcharts option={this.state.option} />

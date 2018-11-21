@@ -28,7 +28,7 @@ class Body extends Component {
 	async get_method_stack() {
 		await axios.get("http://localhost:8080/home/method").then((res) => {
 			console.log("DataMethod", res.data.methods, res.data.tickss)
-			this.setState({ isLoadingMethod: false, dataMethod: res.data.methods, tickXBar:res.data.ticks })
+			this.setState({ isLoadingMethod: false, dataMethod: res.data.methods, dataDate:res.data.ticks })
 		})
 		.catch(error => this.setState({ isLoadingMethod: false }));
 	}
@@ -36,13 +36,13 @@ class Body extends Component {
 	async get_req_count() {
 		await axios.get("http://localhost:8080/home/request").then((res) => {
 			console.log("DataReq", res.data.requests, res.data.date)
-			this.setState({ isLoadingReq: false, dataReq: res.data.requests, tickXLine: res.data.date })
+			this.setState({ isLoadingReq: false, dataReq: res.data.requests, dataDate: res.data.date })
 		})
 		.catch(error => this.setState({ isLoadingReq: false }));
 	}
 
 	checkBarchartsIsLoading() {
-		if (this.isLoadingMethod || this.isLoadingEgress || this.isLoadingIngress) {
+		if (this.state.isLoadingMethod || this.state.isLoadingReq) {
 			return <ReactLoading type="spinningBubbles" color="black"/>;
 		} else {
 			return (
@@ -58,7 +58,7 @@ class Body extends Component {
 	}
 
 	checkTimeSeriesIsLoading() {
-		if (this.isLoadingMethod || this.isLoadingEgress || this.isLoadingIngress) {
+		if (this.state.isLoadingMethod || this.state.isLoadingReq) {
 			return <ReactLoading type="spinningBubbles" color="black"/>;
 		} else {
 			return (

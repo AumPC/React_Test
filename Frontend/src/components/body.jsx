@@ -3,17 +3,20 @@ import SimpleBarchart from './simpleBarchart';
 import TimeSeriesLineChart from './timeSeriesLineChart';
 import ReactLoading from "react-loading";
 import axios from 'axios';
-import { runInThisContext } from 'vm';
 
 class Body extends Component {
 
 	state = {
 		isLoadingMethod: false,
-		isLoadingReq: false,
-		dataMethod: {},
+		isLoadingEgress: false,
+		isLoadingIngress: false,
+		dataMethod: {"GET": [], "HEAD": [], "POST": [], "POST": [], "DELETE": [], "CONNECT": [], "OPTIONS": [], "TRACE": [], "PATCH": []},
+		dataLegend: ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH"],
+		dataDate: [],
+		dataDateTimeSeries: [],
 		dataReq: { Egress: [], Ingress: [] },
-		tickXBar: [],
-		tickXLine: [],
+		dataEgress: {},
+		dataIngress: {}
 	};
 
 	async componentDidMount() {
@@ -38,26 +41,47 @@ class Body extends Component {
 		.catch(error => this.setState({ isLoadingReq: false }));
 	}
 
-	render() {
-		if (this.state.isLoadingMethod || this.state.isLoadingReq) {
+	checkBarchartsIsLoading() {
+		if (this.isLoadingMethod || this.isLoadingEgress || this.isLoadingIngress) {
 			return <ReactLoading type="spinningBubbles" color="black"/>;
+		} else {
+			return (
+				<div className='body-container'>
+				<SimpleBarchart 
+					title = "# of requests method by time"
+					dataLegend = {this.state.dataLegend}
+					dataDate = {this.state.dataDate}
+					dataMethod = {this.state.dataMethod} />
+				</div>
+				);
 		}
+	}
 
-		return (
-			<div className='body-container'>
-				{/* <SimpleBarchart
-					title={'# of requests by time'}
-					dataGet={this.state.dataGet}
-					dataPost={this.state.dataPost}
-					tickXValues={this.state.tickXBar}
-					tickYValues=[]
-				/>
+	checkTimeSeriesIsLoading() {
+		if (this.isLoadingMethod || this.isLoadingEgress || this.isLoadingIngress) {
+			return <ReactLoading type="spinningBubbles" color="black"/>;
+		} else {
+			return (
+				<div className='body-container'>
 				<TimeSeriesLineChart 
-					title={'# of Ingress&Egress by time'}
-					data={this.state.dataTime}
-					label_x="Time"
-					label_y="Request"
-				/> */}
+					title = "# of requests method by time"
+					dataReq = {this.state.dataReq}
+					dataDate = {this.state.dataDateTimeSeries}
+					dataEgress = {this.state.dataEgress}
+					dataIngress = {this.state.dataIngress} />
+				</div>
+				);
+		}
+	}
+
+	render() {
+		let barcharts = this.checkBarchartsIsLoading();
+		let timeSerires = this.checkTimeSeriesIsLoading();
+		
+		return (
+			<div className="body-container">
+				{barcharts}
+				{timeSerires}
 			</div>
 		);
 	};

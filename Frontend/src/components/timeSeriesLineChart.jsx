@@ -1,74 +1,105 @@
 import React, {Component} from 'react';
-import {VictoryChart,
-		VictoryLine,
-		VictoryAxis,
-		VictoryTheme,
-		VictoryLegend,
-		VictoryLabel} from 'victory';
+import ReactEcharts from 'echarts-for-react';
+
 
 class TimeSeriesLineChart extends Component {
 	state = {
-		
+		option: {}
 	};
 
+	componentDidMount() {
+		this.setOptions();
+	};
+
+	componentDidUpdate(prevProps) {
+		if (this.props.dataDate !== prevProps.dataDate) {
+			// console.log('true')
+			this.setOptions();
+		}
+	};
+
+	setOptions = () => {
+		this.setState({
+			option: {
+				title: {
+					text: 'Egress Ingress Chart'
+				},
+				tooltip: {
+					trigger: 'axis',
+					axisPointer: {
+						type: 'cross',
+						crossStyle: {
+							color: '#999'
+						}
+					}
+				},
+				toolbox: {
+					// y: 'bottom',
+					title: {
+						stack: 'Stack'
+					},
+					feature: {
+						magicType: {
+							title: {
+								line: 'line',
+								bar: 'bar',
+								stack: 'stack',
+								tiled: 'tiled'
+							},
+							type: ['line', 'bar', 'stack', 'tiled']
+						}
+					}
+				},
+				legend: {
+					data:['Egress','Ingress','Data Egress', 'Data Ingress']
+				},
+				xAxis: [
+				{
+					type: 'category',
+					name: 'Time',
+					data: this.props.dataDate,
+					axisPointer: {
+						type: 'shadow'
+					},
+					axisLabel: {
+						// rotate: 45,
+						fontSize: 8
+					}
+				}
+				],
+				yAxis: [
+				{
+					type: 'value',
+					name: 'requests',
+					min: 0,
+					axisLabel: {
+						formatter: '{value} req'
+					}
+				}
+				],
+				series: [
+				{
+					name:'Data Egress',
+					type:'line',
+					data: this.props.dataEgress['count']
+				},
+				{
+					name:'Data Ingress',
+					type:'line',
+					data: this.props.dataIngress['count']
+				}
+				]
+			}
+		});
+	}
+
 	render () {
+		// console.log('thisdata', this.props.dataEgress['date'])
 
 		return (
-			<VictoryChart
-				minDomain={{ x:0.5, y: 0 }}
-				maxDomain={{ x:4, y: 500 }}
-				animate={{
-					duration: 1000,
-					onLoad: {duration: 1000}
-				}} 
-				theme={VictoryTheme.material} >
-				<VictoryAxis
-					label={this.props.label_x}
-					axisLabelComponent={<VictoryLabel dy={20}/>} />
-				<VictoryAxis 
-					dependentAxis 
-					label={this.props.label_y}
-					axisLabelComponent={<VictoryLabel dy={-30}/>}/>
-				<VictoryLegend
-					x={70}
-					y={0}
-					title={this.props.title}
-					centerTitle
-					orientation='horizontal'
-					style={{
-						border: { stroke: 'black' },
-						title: {fontSize: 14}
-					}}
-					gutter={20}
-					data={[
-						{name: 'Ingress', symbol: { fill: '#993955' }},
-						{name: 'Egress', symbol: { fill: '#A3C3D9' }}
-						]}
-				/>
-				<VictoryLine
-					data={this.props.data[0].data}
-					animate={{
-						duration: 1000,
-						onLoad: {duration: 750}
-					}}
-					labels={(d) => d.y}
-					style={{
-						data: {stroke: "#993955", opacity: 0.7},
-						labels: {fill: "#993955"}
-					}} />
-				<VictoryLine
-					data={this.props.data[1].data}
-					animate={{
-						duration: 1000,
-						onLoad: {duration: 1000}
-					}}
-					labels={(d) => d.y}
-					style={{
-						data: {stroke: "#A3C3D9", opacity: 0.7},
-						labels: {fill: "#A3C3D9"}
-					}}
-				/>	
-			</VictoryChart>
+			<div>
+				<ReactEcharts option={this.state.option} />
+			</div>
 			);
 	};
 };

@@ -21,6 +21,9 @@ class TimeSeriesLineChart extends Component {
 	setOptions = () => {
 		this.setState({
 			option: {
+				title: {
+					text: 'Egress Ingress Chart'
+				},
 				tooltip: {
 					trigger: 'axis',
 					axisPointer: {
@@ -30,12 +33,30 @@ class TimeSeriesLineChart extends Component {
 						}
 					}
 				},
+				toolbox: {
+					// y: 'bottom',
+					title: {
+						stack: 'Stack'
+					},
+					feature: {
+						magicType: {
+							title: {
+								line: 'line',
+								bar: 'bar',
+								stack: 'stack',
+								tiled: 'tiled'
+							},
+							type: ['line', 'bar', 'stack', 'tiled']
+						}
+					}
+				},
 				legend: {
-					data:['Egress','Ingress','Data Request']
+					data:['Egress','Ingress','Data Egress', 'Data Ingress']
 				},
 				xAxis: [
 				{
 					type: 'category',
+					name: 'Time',
 					data: this.props.dataDate,
 					axisPointer: {
 						type: 'shadow'
@@ -49,7 +70,7 @@ class TimeSeriesLineChart extends Component {
 				yAxis: [
 				{
 					type: 'value',
-					name: '# of requests',
+					name: 'requests',
 					min: 0,
 					axisLabel: {
 						formatter: '{value} req'
@@ -58,19 +79,14 @@ class TimeSeriesLineChart extends Component {
 				],
 				series: [
 				{
-					name:'Egress',
-					type:'bar',
+					name:'Data Egress',
+					type:'line',
 					data: this.props.dataEgress['count']
 				},
 				{
-					name:'Ingress',
-					type:'bar',
-					data: this.props.dataIngress['count']
-				},
-				{
-					name:'Data Request',
+					name:'Data Ingress',
 					type:'line',
-					data:[2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+					data: this.props.dataIngress['count']
 				}
 				]
 			}

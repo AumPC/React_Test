@@ -105,6 +105,7 @@ class Body extends Component {
 		this.dataReq = { Egress: [], Ingress: [] }
 		this.dataEgress = { date: [], count: []}
 		this.dataIngress = { date: [], count: []}
+		this.dataTotal = { date: [], count: []}
 		date.forEach(datekey => {
 			if (datekey in egressRes) { 
 				this.dataReq.Egress.push({ "date": datekey, "count": egressRes[datekey]})

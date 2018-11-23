@@ -40,9 +40,13 @@ class SimpleBarchart extends Component {
 		});
 		this.setState({
 			option: {
+				title: {
+					text: 'Methode Types Chart'
+				},
 				legend: {
 					data: this.legend,
-					algin: 'left'
+					align: 'auto',
+					width: '450'
 					},
 				grid: {
 					left: '3%',

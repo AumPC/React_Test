@@ -35,6 +35,12 @@ class TimeSeriesLineChart extends Component {
 				title: {
 					text: 'Egress Ingress Chart'
 				},
+				grid: {
+					left: '3%',
+					right: '4%',
+					bottom: '3%',
+					containLabel: true
+				},
 				tooltip: {
 					trigger: 'axis',
 					axisPointer: {

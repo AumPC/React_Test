@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Sidebar from './sidebar';
 import Header from './header';
 import Body from './body';
+import EgressIngressPage from './egressIngressPage';
 import Footer from './footer';
 
 class Homepage extends Component {
@@ -29,7 +30,7 @@ class Homepage extends Component {
 				);
 		} else {
 			return (
-				<div className="body-container" />
+				<EgressIngressPage />
 				);
 		}
 	};

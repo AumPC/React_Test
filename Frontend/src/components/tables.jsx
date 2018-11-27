@@ -18,15 +18,11 @@ class Tables extends Component {
 						data={this.state.data}
 						columns={[
 							{
-								Header: "Name",
+								Header: "Top most User",
 								columns: [
 									{
-										Header: "First Name",
-										accessor: "firstname"
-									},
-									{
-										Header: "Last Name",
-										accessor: "lastname"
+										Header: "Userame",
+										accessor: 'username'
 									}
 								]
 							},
@@ -34,16 +30,20 @@ class Tables extends Component {
 								Header: "Info",
 								columns: [
 									{
-										Header: "Visit",
-										accessor: "visit"
-									},
-									{
 										Header: "Egress",
 										accessor: "egress"
 									},
 									{
 										Header: "Ingress",
 										accessor: "ingress"
+									},
+									{
+										Header: "Total Requests",
+										accessor: "total"
+									},
+									{
+										Header: "Last Request",
+										accessor: "last"
 									}
 								]
 							}

@@ -4,18 +4,12 @@ import "react-table/react-table.css";
 
 
 class Tables extends Component {
-	constructor() {
-		super();
-		this.state = {
-			data: []
-		}
-	}
 
 	render() {
 		return(
 				<div>
 					<ReactTable 
-						data={this.state.data}
+						data={this.props.data}
 						columns={[
 							{
 								Header: "Top most User",

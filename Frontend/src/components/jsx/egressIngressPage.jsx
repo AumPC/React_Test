@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import Tables from './tables';
 import World from './world';
+import ReactLoading from "react-loading";
+import axios from 'axios';
 
 class EgressIngressPage extends Component {
 	state = {
+		isLoadingTable: false,
 		tableData: [{
 				username: "sdgs",
 				egress: 8148,
@@ -20,12 +23,67 @@ class EgressIngressPage extends Component {
 			}]
 	};
 
+	async componentDidMount() {
+		await this.setState({ isLoadingTable: true })
+		await this.get_table()
+	}
+
+	async get_table() {
+		let i=0;
+		let table = []
+		let dummy = {
+			username: "",
+			ip: "",
+			egress: 0,
+			ingress: 0,
+			total: 0,
+			last: ""
+		}
+		await axios.get("http://localhost:8080/usertable").then((res) => {
+			// console.log("DataTable", res.data.requests[0], res.data.requests.length)
+			for(i; i<res.data.requests.length; i++) {
+				dummy['username'] = res.data.requests[i][0]['user']
+				dummy['ip'] = res.data.requests[i][0]['ip']
+				dummy['egress'] = res.data.requests[i][0]['egress']
+				dummy['ingress'] = res.data.requests[i][0]['ingress']
+				dummy['total'] = res.data.requests[i][0]['ingress'] + res.data.requests[i][0]['egress']
+				dummy['last'] = res.data.requests[i][0]['time']
+				// console.log(i, dummy)
+				table.push(dummy)
+				dummy = {
+					username: "",
+					ip: "",
+					egress: 0,
+					ingress: 0,
+					total: 0,
+					last: ""
+				}
+			}
+			// console.log(table)
+			this.setState({ isLoadingTable: false, tableData: table })
+		})
+		.catch(error => this.setState({ isLoadingTable: false }));
+	}
+
+	checkIsLoading() {
+		if (this.state.isLoadingTable) {
+			return <ReactLoading type="spinningBubbles" color="black"/>;
+		} else {
+			return (
+				<div>
+					<Tables
+						data={this.state.tableData} />
+					<World />
+				</div>
+				);
+		}
+	}
+
 	render() {
+		let render = this.checkIsLoading();
 		return(
 			<div>
-			<Tables
-				data={this.state.tableData} />
-			<World />
+				{render}
 			</div>
 			);
 	};

@@ -22,7 +22,7 @@ import Charts from '../Charts';
 import Calendar from '../Calendar';
 // import Tables from '../Tables';
 
-import Tables from '../../components/jsx/tables';
+import EgressIngressPage from '../../components/jsx/egressIngressPage';
 
 
 const Main = ({
@@ -49,7 +49,7 @@ const Main = ({
           <Route path="/components" component={Components} />
           <Route path="/profile" component={UserProfile} />
           <Route path="/forms" component={Forms} />
-          <Route path="/ingress-egress" component={Tables} />
+          <Route path="/ingress-egress" component={EgressIngressPage} />
           <Route path="/maps" component={MapsPage} />
           <Route path="/charts" component={Charts} />
           <Route path="/calendar" component={Calendar} />

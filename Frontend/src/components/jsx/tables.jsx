@@ -6,6 +6,7 @@ import "react-table/react-table.css";
 class Tables extends Component {
 
 	render() {
+		console.log(this.props.data)
 		return(
 				<div>
 					<ReactTable 
@@ -15,8 +16,12 @@ class Tables extends Component {
 								Header: "Top most User",
 								columns: [
 									{
-										Header: "Userame",
+										Header: "Username",
 										accessor: 'username'
+									},
+									{
+										Header: "IP",
+										accessor: 'ip'
 									}
 								]
 							},
@@ -32,7 +37,7 @@ class Tables extends Component {
 										accessor: "ingress"
 									},
 									{
-										Header: "Total Requests",
+										Header: "Total",
 										accessor: "total"
 									},
 									{

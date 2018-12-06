@@ -6,7 +6,6 @@ import "react-table/react-table.css";
 class Tables extends Component {
 
 	render() {
-		console.log(this.props.data)
 		return(
 				<div>
 					<ReactTable 

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Tables from './tables';
-import World from './world';
 import ReactLoading from "react-loading";
 import axios from 'axios';
 
@@ -73,7 +72,6 @@ class EgressIngressPage extends Component {
 				<div>
 					<Tables
 						data={this.state.tableData} />
-					<World />
 				</div>
 				);
 		}

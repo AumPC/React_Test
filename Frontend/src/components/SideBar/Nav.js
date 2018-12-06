@@ -67,23 +67,11 @@ class Nav extends Component {
             </div>
           </Collapse>
         </li>
-        <li className={this.isPathActive('/maps') || this.state.mapMenuOpen ? 'active' : null}>
-          <a onClick={() => this.setState({ mapMenuOpen: !this.state.mapMenuOpen })} data-toggle="collapse">
+        <li className={this.isPathActive('/world') || this.state.mapMenuOpen ? 'active' : null}>
+            <Link to="/world">
             <i className="pe-7s-map-marker"></i>
-            <p>Map <b className="caret"></b></p>
-          </a>
-          <Collapse in={this.state.mapMenuOpen}>
-            <div>
-              <ul className="nav">
-                <li className={this.isPathActive('/maps/google-map') ? 'active' : null}>
-                  <Link to="/maps/google-map">Google Map</Link>
-                </li>
-                <li className={this.isPathActive('/maps/vector-map') ? 'active' : null}>
-                  <Link to="/maps/vector-map">Vector Map</Link>
-                </li>
-              </ul>
-            </div>
-          </Collapse>
+            <p>Map</p>
+            </Link>
         </li>
         <li className={this.isPathActive('/charts') ? 'active' : null}>
           <Link to="/charts">

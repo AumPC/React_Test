@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ReactEcharts from 'echarts-for-react';
+require('echarts/map/js/world.js');
 
 class World extends Component {
 	state = {
@@ -227,7 +228,9 @@ class World extends Component {
 	render() {
 		return(
 			<div>
-				<ReactEcharts option={this.state.option} />
+				<ReactEcharts
+					option={this.state.option}
+					style={{height: '600%', width: '100%'}} />
 			</div>
 			);
 	};

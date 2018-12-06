@@ -23,6 +23,7 @@ import Calendar from '../Calendar';
 // import Tables from '../Tables';
 
 import EgressIngressPage from '../../components/jsx/egressIngressPage';
+import World from '../../components/jsx/world';
 
 
 const Main = ({
@@ -50,7 +51,7 @@ const Main = ({
           <Route path="/profile" component={UserProfile} />
           <Route path="/forms" component={Forms} />
           <Route path="/ingress-egress" component={EgressIngressPage} />
-          <Route path="/maps" component={MapsPage} />
+          <Route path="/world" component={World} />
           <Route path="/charts" component={Charts} />
           <Route path="/calendar" component={Calendar} />
           <Footer />

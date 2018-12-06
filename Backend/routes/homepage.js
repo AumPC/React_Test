@@ -48,7 +48,7 @@ async function query_method(interval) {
           this.dataMethod[methods].push((this.datas[key][methods] !== undefined) ? this.datas[key][methods] : 0)
         }
       }
-      console.log("DataMethod", this.dataMethod, Object.keys(this.datas))
+      // console.log("DataMethod", this.dataMethod, Object.keys(this.datas))
       return { "methods": this.dataMethod, "ticks": Object.keys(this.datas) }
     })
     .catch(error => {
@@ -73,7 +73,7 @@ async function query_request(interval) {
     this.dataReq.Egress.push( (datekey in egressRes) ? egressRes[datekey] : 0 )
     this.dataReq.Ingress.push( (datekey in ingressRes) ? ingressRes[datekey] : 0 )
   });
-  console.log("DataReq", this.dataReq, date)
+  // console.log("DataReq", this.dataReq, date)
   return { requests: this.dataReq, date: (date) }
 }
 
@@ -105,7 +105,7 @@ async function get_count(types, query) {
     res['data']['aggregations']['req_time_group']['buckets'].forEach(data => {
       this.datas[data['key_as_string']] = data['doc_count'] ;
     });
-    console.log(types, this.datas)
+    // console.log(types, this.datas)
     return this.datas
   })
 }

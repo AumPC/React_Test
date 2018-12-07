@@ -23,7 +23,7 @@ class Body extends Component {
 
 	async get_method_stack() {
 		await axios.get("http://localhost:8080/home/method").then((res) => {
-			// console.log("DataMethod", res.data.methods, res.data.tickss)
+			console.log("DataMethod", res.data.methods, res.data.tickss)
 			this.setState({ isLoadingMethod: false, dataMethod: res.data.methods, dataDate:res.data.ticks })
 		})
 		.catch(error => this.setState({ isLoadingMethod: false }));
@@ -31,7 +31,7 @@ class Body extends Component {
 
 	async get_req_count() {
 		await axios.get("http://localhost:8080/home/request").then((res) => {
-			// console.log("DataReq", res.data.requests, res.data.date)
+			console.log("DataReq", res.data.requests, res.data.date)
 			this.setState({ isLoadingReq: false, dataReq: res.data.requests, dataDateTimeSeries: res.data.date })
 		})
 		.catch(error => this.setState({ isLoadingReq: false }));

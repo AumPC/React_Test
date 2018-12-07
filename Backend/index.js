@@ -5,6 +5,7 @@ const cors = require('cors')
 const fileUpload = require('express-fileupload');
 var home = require('./routes/homepage');
 var usertable = require('./routes/usertable');
+var map = require('./routes/map');
 
 app.use(cors());
 
@@ -25,6 +26,7 @@ app.post('/upload', function (req, res) {
 
 app.use('/home', home)
 app.use('/usertable', usertable)
+app.use('/map', map)
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

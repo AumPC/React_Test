@@ -24,7 +24,7 @@ class UploadFile extends Component {
 	}
 
 	fileUpload(file) {
-		const url = 'http://localhost:8080/upload';
+		const url = 'http://10.3.132.198:8080/upload';
 		// const url = '/public/logs';
 		const formData = new FormData();
 		formData.append('file',file)
@@ -39,11 +39,21 @@ class UploadFile extends Component {
 	render() {
 		return (
 			<div className="card">
-				<form onSubmit={this.onFormSubmit}>
-				<h3>File Upload</h3>
-				<input type="file" onChange={this.onChange} multiple/>
-				<button type="submit">Upload</button>
-				</form>
+				<div className="header">
+					<h4>File Upload</h4>
+				</div>
+				<div className="content">
+					<form onSubmit={this.onFormSubmit}>
+					<div className="form-group">
+						<div className="row">
+							<input type="file" onChange={this.onChange} multiple/>
+						</div>
+						<div className="row">
+							<button type="submit">Upload</button>
+						</div>
+					</div>
+					</form>
+				</div>
 			</div>
 			);
 	}

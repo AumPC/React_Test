@@ -38,11 +38,13 @@ class UploadFile extends Component {
 
 	render() {
 		return (
-			<form onSubmit={this.onFormSubmit}>
-			<h1>File Upload</h1>
-			<input type="file" onChange={this.onChange} multiple/>
-			<button type="submit">Upload</button>
-			</form>
+			<div className="card">
+				<form onSubmit={this.onFormSubmit}>
+				<h3>File Upload</h3>
+				<input type="file" onChange={this.onChange} multiple/>
+				<button type="submit">Upload</button>
+				</form>
+			</div>
 			);
 	}
 };

@@ -7,8 +7,8 @@ class World extends Component {
 		option: {}
 	};
 
-	componentDidMount() {
-		this.setOptions();
+	async componentDidMount() {
+		await this.setOptions();
 	};
 
 	setOptions = () => {

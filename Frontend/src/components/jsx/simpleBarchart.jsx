@@ -41,7 +41,7 @@ class SimpleBarchart extends Component {
 		this.setState({
 			option: {
 				title: {
-					text: 'Methode Types Chart'
+					text: 'Method Types Chart'
 				},
 				legend: {
 					data: this.legend,

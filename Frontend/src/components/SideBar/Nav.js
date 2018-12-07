@@ -25,26 +25,23 @@ class Nav extends Component {
           </p>
           </Link>
         </li>
+        <li className={this.isPathActive('/world') || this.state.mapMenuOpen ? 'active' : null}>
+            <Link to="/world">
+            <i className="pe-7s-map-marker"></i>
+            <p>Map</p>
+            </Link>
+        </li>
+        <li className={this.isPathActive('/domain') ? 'active' : null}>
+          <Link to="/domain">
+            <i className="pe-7s-date"></i>
+            <p>Domain</p>
+          </Link>
+        </li>
         <li className={this.isPathActive('/forms') || this.state.formMenuOpen ? 'active' : null}>
-          <a onClick={() => this.setState({ formMenuOpen: !this.state.formMenuOpen })} data-toggle="collapse">
+            <Link to="/forms">
             <i className="pe-7s-note2"></i>
-            <p>Forms <b className="caret"></b></p>
-          </a>
-          <Collapse in={this.state.formMenuOpen}>
-            <div>
-              <ul className="nav">
-                <li className={this.isPathActive('/forms/regular-forms') ? 'active' : null}>
-                  <Link to="/forms/regular-forms">Regular Forms</Link>
-                </li>
-                <li className={this.isPathActive('/forms/extended-forms') ? 'active' : null}>
-                  <Link to="/forms/extended-forms">Extended Forms</Link>
-                </li>
-                <li className={this.isPathActive('/forms/validation-forms') ? 'active' : null}>
-                  <Link to="/forms/validation-forms">Validation Forms</Link>
-                </li>
-              </ul>
-            </div>
-          </Collapse>
+            <p>Forms</p>
+            </Link>
         </li>
         <li className={this.isPathActive('/tables') || this.state.tableMenuOpen ? 'active' : null}>
           <a onClick={() => this.setState({ tableMenuOpen: !this.state.tableMenuOpen })} data-toggle="collapse">
@@ -67,22 +64,10 @@ class Nav extends Component {
             </div>
           </Collapse>
         </li>
-        <li className={this.isPathActive('/world') || this.state.mapMenuOpen ? 'active' : null}>
-            <Link to="/world">
-            <i className="pe-7s-map-marker"></i>
-            <p>Map</p>
-            </Link>
-        </li>
         <li className={this.isPathActive('/charts') ? 'active' : null}>
           <Link to="/charts">
             <i className="pe-7s-graph"></i>
             <p>Charts</p>
-          </Link>
-        </li>
-        <li className={this.isPathActive('/calendar') ? 'active' : null}>
-          <Link to="/calendar">
-            <i className="pe-7s-date"></i>
-            <p>Calendar</p>
           </Link>
         </li>
       </ul>

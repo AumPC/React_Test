@@ -21,13 +21,6 @@ class SideBar extends Component {
     return (
       <div className="sidebar" data-color={backgroundColor} data-image={backgroundImage}>
 
-        <div className="brand">
-          <a href="http://jslancer.com" className="brand-name">
-            <img src={'http://jslancer.com/wp-content/uploads/2017/04/js-lancer-logo2-1.png'} alt="logo" className="logo" />
-          </a>
-
-        </div>
-
         <div className="sidebar-wrapper">
           <UserInfo />
           <div className="line"></div>

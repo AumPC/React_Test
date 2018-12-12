@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import ReactEcharts from 'echarts-for-react';
+import CardContent from '@material-ui/core/CardContent';
+import Paper from '@material-ui/core/Paper';
 require('echarts/map/js/world.js');
 
 class World extends Component {
@@ -227,10 +229,14 @@ class World extends Component {
 
 	render() {
 		return(
-			<div>
-				<ReactEcharts
-					option={this.state.option}
-					style={{height: '600%', width: '100%'}} />
+			<div className="content">
+				<Paper>
+					<CardContent>
+						<ReactEcharts
+							option={this.state.option}
+							style={{height: '600%', width: '100%'}} />
+					</CardContent>
+				</Paper>
 			</div>
 			);
 	};

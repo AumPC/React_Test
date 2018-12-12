@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://jslancerteam.github.io/crystal-dashboard",
   "dependencies": {
+    "@material-ui/core": "^3.6.2",
     "@nivo/circle-packing": "^0.51.0",
     "animate.css": "^3.5.2",
     "autoprefixer": "7.1.2",

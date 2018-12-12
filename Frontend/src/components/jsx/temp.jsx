@@ -2,23 +2,28 @@ import React, { Component } from 'react';
 import * as d3 from "d3";
 
 class Temp extends Component {
+
     componentDidMount() {
         this.drawChart();
     }
 
+
     drawChart() {
         const data = this.props.data;
 
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+
         const svg = d3.select("#temp_circle").append("svg")
-            .attr("width", this.props.width)
-            .attr("height", this.props.height);
+            .attr("width", w*0.6)
+            .attr("height", w*0.6);
         var margin = 20,
             diameter = +svg.attr("width"),
             g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
         var color = d3.scaleLinear()
-            .domain([-1, 5])
-            .range(["hsl(15,80%,77%)", "hsl(228,30%,40%)"])
+            .domain([5, 4, 3, 2, 1, 0, -1])
+            .range(["#3B28CC", "#2667FF", "#3F8EFC", "#87BFFF", "#ADD7F6"])
             .interpolate(d3.interpolateHcl);
 
         var pack = d3.pack()
@@ -38,7 +43,7 @@ class Temp extends Component {
                 .data(nodes)
                 .enter().append("circle")
                 .attr("class", function (d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
-                .style("fill", function (d) { return d.children ? color(d.depth) : null; })
+                .style("fill", function (d) { return d.children ? color(d.depth) : "#ADD7F6"; })
                 .on("click", function (d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
 
             var text = g.selectAll("text")
@@ -82,9 +87,7 @@ class Temp extends Component {
     }
 
     render() {
-        console.log(this.props.data)
-        return <div id={this.props.id
-        } ></div >
+        return <div id={this.props.id} ></div>
     }
 }
 

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios, {post} from 'axios';
 import Temp from "./temp";
 
-class UploadFile extends Component {
+class DomainD3 extends Component {
 	state = {
 		data: {
 			"name": "thoughts",
@@ -200,18 +200,16 @@ class UploadFile extends Component {
 			  }
 			]
 		  },
-		width: 700,
-		height: 500,
 		id: "temp_circle"
 	  }
 	
 	  render() {
 		return (
 		  <div className="temp_circle">
-			<Temp data={this.state.data} width={this.state.width} height={this.state.height} id={this.state.id}/>
+			<Temp data={this.state.data} id={this.state.id}/>
 		  </div>
 		);
 	  }
 };
 
-export default UploadFile;
+export default DomainD3;

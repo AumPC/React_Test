@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import axios, {post} from 'axios';
+import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 
 class UploadFile extends Component {
 	constructor(props) {
@@ -38,12 +41,20 @@ class UploadFile extends Component {
 
 	render() {
 		return (
-			<div className="card">
-				<form onSubmit={this.onFormSubmit}>
-				<h3>File Upload</h3>
-				<input type="file" onChange={this.onChange} multiple/>
-				<button type="submit">Upload</button>
-				</form>
+			<div className="content">
+			<Paper>
+				<CardContent>
+					<form onSubmit={this.onFormSubmit}>
+					<h3>File Upload</h3>
+					<hr />
+					<CardContent>
+						<input type="file" onChange={this.onChange} multiple/>
+						<br/>
+						<button type="submit">Upload</button>
+					</CardContent>
+					</form>
+				</CardContent>
+			</Paper>
 			</div>
 			);
 	}

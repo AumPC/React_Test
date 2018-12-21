@@ -3,12 +3,14 @@ import axios, {post} from 'axios';
 import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import ReactLoading from "react-loading";
 
 class UploadFile extends Component {
 	constructor(props) {
 		super(props);
 		this.state ={
-			file:null
+			file:null,
+			loading: false
 		}
 		this.onFormSubmit = this.onFormSubmit.bind(this)
 		this.onChange = this.onChange.bind(this)
@@ -36,10 +38,24 @@ class UploadFile extends Component {
 				'content-type': 'multipart/form-data'
 			}
 		}
-		return  post(url, formData, config)
+		this.setState({loading: true});
+		return  post(url, formData, config).then(this.setState({loading: false}))
+	}
+
+	isLoading() {
+		if (this.state.loading) {
+			return(
+				<ReactLoading />
+				);
+		} else {
+			return(
+				<button type="submit">Upload</button>
+				);
+		}
 	}
 
 	render() {
+		let loading = this.isLoading();
 		return (
 			<div className="content">
 			<Paper>
@@ -50,7 +66,7 @@ class UploadFile extends Component {
 					<CardContent>
 						<input type="file" onChange={this.onChange} multiple/>
 						<br/>
-						<button type="submit">Upload</button>
+						{loading}
 					</CardContent>
 					</form>
 				</CardContent>

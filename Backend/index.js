@@ -19,6 +19,7 @@ app.post('/upload', function (req, res) {
     }
     let file = req.files.file;
     console.log(req.files)
+    console.log(`${__dirname}`)
     file.mv(`${__dirname}` + '/public/logs/' + file.name, function (err) {
         if (err) return res.status(500).send(err);
         res.send('File uploaded!');

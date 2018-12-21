@@ -25,8 +25,8 @@ class EgressIngressPage extends Component {
 	};
 
 	async componentDidMount() {
-		await this.setState({ isLoadingTable: true })
-		await this.get_table()
+		await this.setState({ isLoadingTable: true });
+		await this.get_table();
 	}
 
 	async get_table() {

@@ -24,7 +24,7 @@ class Body extends Component {
 	}
 
 	async get_method_stack() {
-		await axios.get("http://localhost:8080/home/method").then((res) => {
+		await axios.get("http://10.3.132.198:8080/home/method").then((res) => {
 			console.log("DataMethod", res.data.methods, res.data.tickss)
 			this.setState({ isLoadingMethod: false, dataMethod: res.data.methods, dataDate:res.data.ticks })
 		})
@@ -32,7 +32,7 @@ class Body extends Component {
 	}
 
 	async get_req_count() {
-		await axios.get("http://localhost:8080/home/request").then((res) => {
+		await axios.get("http://10.3.132.198:8080/home/request").then((res) => {
 			console.log("DataReq", res.data.requests, res.data.date)
 			this.setState({ isLoadingReq: false, dataReq: res.data.requests, dataDateTimeSeries: res.data.date })
 		})

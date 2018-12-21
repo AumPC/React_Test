@@ -3,6 +3,8 @@ import SimpleBarchart from './simpleBarchart';
 import TimeSeriesLineChart from './timeSeriesLineChart';
 import ReactLoading from "react-loading";
 import axios from 'axios';
+import Paper from '@material-ui/core/Paper';
+import CardContent from '@material-ui/core/CardContent';
 
 class Body extends Component {
 
@@ -73,16 +75,17 @@ class Body extends Component {
 		
 		return (
 			<div>
-				<div className="row">
-						<div className="col">
-							{barcharts}
-						</div>
-				</div>
-				<div className="row">
-					<div className="col">
+				<Paper>
+					<CardContent>
+						{barcharts}
+					</CardContent>
+				</Paper>
+				<hr/>
+				<Paper>
+					<CardContent>
 						{timeSerires}
-					</div>
-				</div>
+					</CardContent>
+				</Paper>
 			</div>
 		);
 	};

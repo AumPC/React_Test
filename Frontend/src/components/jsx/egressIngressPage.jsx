@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import Tables from './tables';
 import ReactLoading from "react-loading";
 import axios from 'axios';
+import Paper from '@material-ui/core/Paper';
+import CardContent from '@material-ui/core/CardContent';
 
 class EgressIngressPage extends Component {
 	state = {
@@ -23,8 +25,8 @@ class EgressIngressPage extends Component {
 	};
 
 	async componentDidMount() {
-		await this.setState({ isLoadingTable: true })
-		await this.get_table()
+		await this.setState({ isLoadingTable: true });
+		await this.get_table();
 	}
 
 	async get_table() {
@@ -69,10 +71,8 @@ class EgressIngressPage extends Component {
 			return <ReactLoading type="spinningBubbles" color="black"/>;
 		} else {
 			return (
-				<div>
 					<Tables
 						data={this.state.tableData} />
-				</div>
 				);
 		}
 	}
@@ -80,8 +80,12 @@ class EgressIngressPage extends Component {
 	render() {
 		let render = this.checkIsLoading();
 		return(
-			<div>
-				{render}
+			<div className="content">
+				<Paper>
+					<CardContent>
+						{render}
+					</CardContent>
+				</Paper>
 			</div>
 			);
 	};

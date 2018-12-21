@@ -8,6 +8,14 @@ router.use(function timeLog(req, res, next) {
 
 async function query_method(interval) {
   this.queryMethod = {
+    "query": {
+      "range": {
+        "req_time_human": {
+          "gte": "2017-04-09T20:05:00.000Z",
+          "lte": "now"
+        }
+      }
+    },
     "size": 0,
     "aggs": {
       "req_time_group": {
@@ -49,6 +57,7 @@ async function query_method(interval) {
         }
       }
       // console.log("DataMethod", this.dataMethod, Object.keys(this.datas))
+      console.log("GET DataMethod")
       return { "methods": this.dataMethod, "ticks": Object.keys(this.datas) }
     })
     .catch(error => {

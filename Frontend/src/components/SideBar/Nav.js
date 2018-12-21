@@ -40,35 +40,8 @@ class Nav extends Component {
         <li className={this.isPathActive('/forms') || this.state.formMenuOpen ? 'active' : null}>
             <Link to="/forms">
             <i className="pe-7s-note2"></i>
-            <p>Forms</p>
+            <p>Files Upload</p>
             </Link>
-        </li>
-        <li className={this.isPathActive('/tables') || this.state.tableMenuOpen ? 'active' : null}>
-          <a onClick={() => this.setState({ tableMenuOpen: !this.state.tableMenuOpen })} data-toggle="collapse">
-            <i className="pe-7s-news-paper"></i>
-            <p>Tables <b className="caret"></b></p>
-          </a>
-          <Collapse in={this.state.tableMenuOpen}>
-            <div>
-              <ul className="nav">
-                <li className={this.isPathActive('/tables/regular-tables') ? 'active' : null}>
-                  <Link to="/tables/regular-tables">Regular Table</Link>
-                </li>
-                <li className={this.isPathActive('/tables/extended-tables') ? 'active' : null}>
-                  <Link to="/tables/extended-tables">Extended Tables</Link>
-                </li>
-                <li className={this.isPathActive('/tables/fixed-data-table') ? 'active' : null}>
-                  <Link to="/tables/react-bootstrap-table">React Bootstrap Table</Link>
-                </li>
-              </ul>
-            </div>
-          </Collapse>
-        </li>
-        <li className={this.isPathActive('/charts') ? 'active' : null}>
-          <Link to="/charts">
-            <i className="pe-7s-graph"></i>
-            <p>Charts</p>
-          </Link>
         </li>
       </ul>
     );

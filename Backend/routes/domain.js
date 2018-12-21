@@ -27,7 +27,7 @@ async function query_domain_request(interval, sort) {
                 if (data.key != '-') {
                     var extract = parseDomain(data['key'])
 
-                    if (extract) {
+                    if (extract && data['doc_count'] > 100) {
                         if (!(extract.tld in count)) {
                             count[extract.tld] = {}
                             count[extract.tld][extract.domain] = {}

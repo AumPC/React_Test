@@ -2,14 +2,17 @@ import React, {Component} from 'react';
 import DomainD3 from './domainD3';
 import Paper from '@material-ui/core/Paper';
 import CardContent from '@material-ui/core/CardContent';
+import axios from 'axios';
 
 class Domain extends Component {
 	state = {
+		isLoadingTable: false,
 		option: {},
 		data: []
 	};
 
 	async componentDidMount() {
+		await this.get_data();
 		await this.setOptions();
 	}
 
@@ -21,86 +24,27 @@ class Domain extends Component {
 		            triggerOn: 'mousemove'
 		        },
 		        series:[
-		            {
-		                type: 'tree',
-
-		                data: [{
-		                		                	name: "root",
-		                								children: [
-		                									{
-		                										name: "sub1",
-		                										children: [
-		                											{
-		                												name: "subsub1",
-		                												value: 322
-		                											},
-		                											{
-		                												name: "subsub2",
-		                												value: 111
-		                											}
-		                										]
-		                									},
-		                									{
-		                										name: "sub2",
-		                										children: [
-		                											{
-		                												name: "subsub2",
-		                												value: 33322
-		                											},
-		                											{
-		                												name: "subsub3",
-		                												value: 111325
-		                											}
-		                										]
-		                									}
-		                								]
-		                		                }],
-
-		                left: '2%',
-		                right: '2%',
-		                top: '8%',
-		                bottom: '20%',
-
-		                symbol: 'emptyCircle',
-
-		                orient: 'vertical',
-
-		                expandAndCollapse: true,
-
-		                label: {
-		                    normal: {
-		                        position: 'top',
-		                        rotate: -90,
-		                        verticalAlign: 'middle',
-		                        align: 'right',
-		                        fontSize: 9
-		                    }
-		                },
-
-		                leaves: {
-		                    label: {
-		                        normal: {
-		                            position: 'bottom',
-		                            rotate: -90,
-		                            verticalAlign: 'middle',
-		                            align: 'left'
-		                        }
-		                    }
-		                },
-
-		                animationDurationUpdate: 750
-		            }
+		        	{
+		        		type: 'tree',
+		        	}
 		        ]
 		    }
 		});
-	}
+	};
+
+	async get_data() {
+		await axios.get("http://localhost:8080/domain").then((res) => {
+			console.log(res);
+		})
+		.catch(error => this.setState({ isLoadingTable: true }));
+	};
 
 	render() {
 		return(
 			<div className="content">
 			<Paper>
 				<CardContent>
-					<DomainD3 />
+					<DomainD3 data={this.state.data}/>
 				</CardContent>
 			</Paper>
 			</div>

@@ -52,7 +52,7 @@ async function query_domain_request(interval, sort) {
                 });
                 return { name: (tld), children: (child_tld)}
             });
-            console.log(this.datas)
+            // console.log(this.datas)
             return this.datas
         })
 }

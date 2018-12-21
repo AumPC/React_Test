@@ -5,6 +5,7 @@ import ReactLoading from "react-loading";
 import axios from 'axios';
 import Paper from '@material-ui/core/Paper';
 import CardContent from '@material-ui/core/CardContent';
+import DateTimePicker from 'react-datetime-picker';
 
 class Body extends Component {
 
@@ -15,6 +16,9 @@ class Body extends Component {
 		dataDate: [],
 		dataDateTimeSeries: [],
 		dataReq: { Egress: [], Ingress: [] },
+		date: new Date(),
+		min:0,
+		max:0
 	};
 
 	async componentDidMount() {
@@ -32,7 +36,7 @@ class Body extends Component {
 	}
 
 	async get_req_count() {
-		await axios.get("http://localhost:8080/home/request").then((res) => {
+		await axios.get("http://localhost:8080/home/request?start="+this.state.min+"&end="+this.state.max).then((res) => {
 			console.log("DataReq", res.data.requests, res.data.date)
 			this.setState({ isLoadingReq: false, dataReq: res.data.requests, dataDateTimeSeries: res.data.date })
 		})
@@ -52,6 +56,12 @@ class Body extends Component {
 				</div>
 				);
 		}
+	}
+
+	onChange = date => {
+		this.setState({ date })
+		console.log(date.toISOString())
+		console.log(new Date("2017-04-09T20:00:00.001Z"))
 	}
 
 	checkTimeSeriesIsLoading() {
@@ -75,6 +85,10 @@ class Body extends Component {
 		
 		return (
 			<div>
+				        <DateTimePicker
+          onChange={this.onChange}
+          value={this.state.date}
+        />
 				<Paper>
 					<CardContent>
 						{barcharts}

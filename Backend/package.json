@@ -15,7 +15,8 @@
     "event-stream": "^3.3.4",
     "express": "^4.16.4",
     "express-fileupload": "^1.0.0",
-    "multer": "^1.4.1"
+    "multer": "^1.4.1",
+    "parse-domain": "^2.1.7"
   },
   "devDependencies": {
     "nodemon": "^1.18.6"

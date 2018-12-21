@@ -6,45 +6,15 @@ import axios from 'axios';
 
 class Domain extends Component {
 	state = {
-		isLoadingTable: false,
-		option: {},
-		data: []
 	};
 
-	async componentDidMount() {
-		await this.get_data();
-		await this.setOptions();
-	}
-
-	setOptions = () => {
-		this.setState({
-			option: {
-		        tooltip: {
-		            trigger: 'item',
-		            triggerOn: 'mousemove'
-		        },
-		        series:[
-		        	{
-		        		type: 'tree',
-		        	}
-		        ]
-		    }
-		});
-	};
-
-	async get_data() {
-		await axios.get("http://localhost:8080/domain").then((res) => {
-			console.log(res);
-		})
-		.catch(error => this.setState({ isLoadingTable: true }));
-	};
 
 	render() {
 		return(
 			<div className="content">
 			<Paper>
 				<CardContent>
-					<DomainD3 data={this.state.data}/>
+					<DomainD3 />
 				</CardContent>
 			</Paper>
 			</div>

@@ -52,13 +52,13 @@ class UploadFile extends Component {
 	}
 
 	isLoading() {
-		if (this.state.loading) {
+		if (this.state.file === null) {
 			return(
-				<ReactLoading type="spinningBubbles" color="black" />
+				<div/>
 				);
 		} else {
 			return(
-				<button type="submit">Upload</button>
+				<Button type="submit" color="primary">Upload</Button>
 				);
 		}
 	};

@@ -13,6 +13,7 @@ class World extends Component {
 		option3: {},
 		egress: [],
 		ingress: [],
+		total: [],
 		map: "total"
 	};
 
@@ -23,7 +24,7 @@ class World extends Component {
 
 	async get_world() {
 		await axios.get("http://localhost:8080/map").then((res) => {
-			this.setState({egress: res.data.Egress, ingress: res.data.Ingress, map: "total"})
+			this.setState({egress: res.data.Egress, ingress: res.data.Ingress, total: res.data.Total, map: "total"})
 		})
 		.catch(error => this.setState({ isLoadingTable: true }));
 	};
@@ -38,18 +39,22 @@ class World extends Component {
 				},
 			    tooltip: {
 			        trigger: 'item',
-			        formatter: '{b} </br> {a0}: {c0}'
-			        // formatter: function (params) {
-			        // 	return 'some text' + params.data[1];
-			        // }
+					formatter: function (params) {
+						return params.seriesName + '<br/>' + params.name + ' : ' + Math.pow(params.value,2).toFixed(0) ;
+					}
 			    },
 			    visualMap: {
 			    	min: 0,
-			    	max: 100000,
+			    	max: this.state.egress.max,
 			    	left: 'left',
-			    	top: 'bottom',
+					top: 'bottom',
+					precision: 0,
 			    	text: ['high','low'],
-			    	calculable: true
+					calculable: false,
+					inRange: {
+						color: ["#ADD7F6", "#3F8EFC", "#3B28CC"],
+						symbolSize: [20, 100]
+					}
 			    },
 			    series: [
 				    {	name: "Total",
@@ -63,43 +68,34 @@ class World extends Component {
 					    		show: true
 						    }
 						},
-						data: this.state.egress
-					},
-					{	name: "Ingress",
-				    	type: "map",
-				    	mapType: "world",
-				    	label: {
-				    		normal: {
-				    			show: false
-				    		},
-					    	emphasis: {
-					    		show: true
-						    }
-						},
-						data: this.state.ingress
+						data: this.state.total.data
 					}
 			    ]
 			},
 			option2: {
 				title: {
 					text: 'World Map',
-					subtext: 'Ingress/Egress from countries',
+					subtext: 'Egress from countries',
 					left: 'center'
 				},
 			    tooltip: {
 			        trigger: 'item',
-			        formatter: '{b} </br> {a0}: {c0}'
-			        // formatter: function (params) {
-			        // 	return 'some text' + params.data[1];
-			        // }
+					formatter: function (params) {
+						return params.seriesName + '<br/>' + params.name + ' : ' + Math.pow(params.value,2).toFixed(0) ;
+					}
 			    },
 			    visualMap: {
 			    	min: 0,
-			    	max: 33000,
+			    	max: this.state.egress.max,
 			    	left: 'left',
-			    	top: 'bottom',
+					top: 'bottom',
+					precision: 0,
 			    	text: ['high','low'],
-			    	calculable: true
+					calculable: false,
+					inRange: {
+						color: ["#ADD7F6", "#3F8EFC", "#3B28CC"],
+						symbolSize: [20, 100]
+					}
 			    },
 			    series: [{	name: "Egress",
 				    	type: "map",
@@ -112,29 +108,33 @@ class World extends Component {
 					    		show: true
 						    }
 						},
-						data: this.state.egress
+						data: this.state.egress.data
 					}]
 			},
 			option3: {
 				title: {
 					text: 'World Map',
-					subtext: 'Ingress/Egress from countries',
+					subtext: 'Ingress from countries',
 					left: 'center'
 				},
 			    tooltip: {
 			        trigger: 'item',
-			        formatter: '{b} </br> {a0}: {c0}'
-			        // formatter: function (params) {
-			        // 	return 'some text' + params.data[1];
-			        // }
+					formatter: function (params) {
+						return params.seriesName + '<br/>' + params.name + ' : ' + Math.pow(params.value,2).toFixed(0) ;
+					}
 			    },
 			    visualMap: {
 			    	min: 0,
-			    	max: 60000,
+			    	max: this.state.egress.max,
 			    	left: 'left',
-			    	top: 'bottom',
+					top: 'bottom',
+					precision: 0,
 			    	text: ['high','low'],
-			    	calculable: true
+					calculable: false,
+					inRange: {
+						color: ["#ADD7F6", "#3F8EFC", "#3B28CC"],
+						symbolSize: [20, 100]
+					}
 			    },
 			    series: [{	name: "Ingress",
 				    	type: "map",
@@ -147,7 +147,7 @@ class World extends Component {
 					    		show: true
 						    }
 						},
-						data: this.state.ingress
+						data: this.state.ingress.data
 					}]
 			}
 		})

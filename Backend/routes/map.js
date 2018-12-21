@@ -186,13 +186,19 @@ var nameMap = {
 
 
 async function query_map(interval, sort) {
-    let egressRes = await get_count("Egress", [{ "regexp": { "src_ip.keyword": "158.108.*" } },
+    var egressRes = await get_count("Egress", [{ "regexp": { "src_ip.keyword": "158.108.*" } },
                                                { "regexp": { "src_ip.keyword": "10.*" } } ])
-    let ingressRes = await get_count("Ingress", [{ "regexp": { "dst_ip.keyword": "158.108.*" } },
+    var ingressRes = await get_count("Ingress", [{ "regexp": { "dst_ip.keyword": "158.108.*" } },
                                                  { "regexp": { "dst_ip.keyword": "10.*" } } ])
+    var totalRes = await combineDict(egressRes, ingressRes)
+    egressRes = await create_list(egressRes)
+    ingressRes = await create_list(ingressRes)
+    totalRes = await create_list(totalRes)
+    // console.log(totalRes)
     return {
         Egress: (egressRes),
-        Ingress: (ingressRes)
+        Ingress: (ingressRes),
+        Total: (totalRes)
     }
 }
 
@@ -225,17 +231,34 @@ async function get_count(types, query) {
             res['data']['aggregations']['location']['buckets'].forEach(data => {
                 this.datas[data['key']] = data['doc_count'];
             });
-            this.result = []
-            Object.keys(nameMap).forEach(data => {
-                this.max = (data in this.datas && this.max < this.datas[data]) ? this.datas[data] : this.max
-                this.result.push({ 
-                    name: data,
-                    value: (data in this.datas) ? this.datas[data] : 0
-                })
-            })
-            console.log(types, this.result, this.max)
-            return {data: this.result, max: this.max}
+            return this.datas
         })
+}
+
+async function combineDict(obj1, obj2) {
+    var totals = Object.assign({}, obj1);;
+    console.log(totals)
+    Object.keys(obj2).forEach(data => {
+        if ( totals[data] != undefined ) {
+            totals[data] = totals[data] + obj2[data]
+        } else {
+            totals[data] = obj2[data]
+        }
+    })
+    return totals
+}
+
+async function create_list(datas) {
+    this.result = []
+    Object.keys(nameMap).forEach(data => {
+        value = (data in datas) ? Math.sqrt(datas[data]) : 0
+        this.max = (data in datas && this.max < value) ? value : this.max
+        this.result.push({
+            name: data,
+            value: (data in datas) ? value : 0
+        })
+    })
+    return {data:this.result, max: this.max}
 }
 
 router.get('/', (req, res) => {

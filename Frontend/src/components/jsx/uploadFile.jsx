@@ -54,7 +54,8 @@ class UploadFile extends Component {
 	isLoading() {
 		if (this.state.file === null) {
 			return(
-				<div/>
+				<Button type="button" color="disable">Upload</Button>
+
 				);
 		} else {
 			return(
@@ -105,7 +106,7 @@ class UploadFile extends Component {
 				<DialogTitle id="alert-dialog-title">{"Upload completed."}</DialogTitle>
 				<DialogContent>
 					<DialogContentText id="alert-dialog-description">
-						Upload completed.
+						Your data successfully uploaded.
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>

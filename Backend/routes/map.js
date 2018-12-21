@@ -221,18 +221,20 @@ async function get_count(types, query) {
         })
         .then((res) => {
             this.datas = {}
+            this.max = 0
             res['data']['aggregations']['location']['buckets'].forEach(data => {
                 this.datas[data['key']] = data['doc_count'];
             });
             this.result = []
             Object.keys(nameMap).forEach(data => {
+                this.max = (data in this.datas && this.max < this.datas[data]) ? this.datas[data] : this.max
                 this.result.push({ 
                     name: data,
                     value: (data in this.datas) ? this.datas[data] : 0
                 })
             })
-            console.log(types, this.result)
-            return this.result
+            console.log(types, this.result, this.max)
+            return {data: this.result, max: this.max}
         })
 }
 

@@ -3,6 +3,7 @@ import ReactEcharts from 'echarts-for-react';
 import axios from 'axios';
 import CardContent from '@material-ui/core/CardContent';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 require('echarts/map/js/world.js');
 
 class World extends Component {
@@ -193,9 +194,9 @@ class World extends Component {
 		let map = this.handleMap();
 		return(
 			<div className="content">
-				<button type="button" onClick={this.handleTotal}>Total</button>
-				<button type="button" onClick={this.handleEgress}>Egress</button>
-				<button type="button" onClick={this.handleIngress}>Ingress</button>
+				<Button color="secondary" type="button" onClick={this.handleTotal}>Total</Button>
+				<Button color="secondary" type="button" onClick={this.handleEgress}>Egress</Button>
+				<Button color="secondary" type="button" onClick={this.handleIngress}>Ingress</Button>
 				<Paper>
 					<CardContent>
 						{map}

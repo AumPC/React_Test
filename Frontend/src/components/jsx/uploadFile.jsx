@@ -2,15 +2,23 @@ import React, {Component} from 'react';
 import axios, {post} from 'axios';
 import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
+import Button from '@material-ui/core/Button';
 import CardContent from '@material-ui/core/CardContent';
 import ReactLoading from "react-loading";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 class UploadFile extends Component {
 	constructor(props) {
 		super(props);
 		this.state ={
-			file:null,
-			loading: false
+			file: null,
+			loading: false,
+			done: false,
+			open: false
 		}
 		this.onFormSubmit = this.onFormSubmit.bind(this)
 		this.onChange = this.onChange.bind(this)
@@ -30,6 +38,7 @@ class UploadFile extends Component {
 
 	fileUpload(file) {
 		const url = 'http://localhost:8080/upload';
+		// const url = 'http://10.3.132.198:8080/upload';
 		// const url = '/public/logs';
 		const formData = new FormData();
 		formData.append('file',file)
@@ -39,23 +48,39 @@ class UploadFile extends Component {
 			}
 		}
 		this.setState({loading: true});
-		return  post(url, formData, config).then(this.setState({loading: false}))
+		return  post(url, formData, config).then(this.setState({loading: false, done: true}))
 	}
 
 	isLoading() {
-		if (this.state.loading) {
+		if (this.state.file === null) {
 			return(
-				<ReactLoading />
+				<div/>
 				);
 		} else {
 			return(
-				<button type="submit">Upload</button>
+				<Button type="submit" color="primary">Upload</Button>
 				);
 		}
-	}
+	};
+
+	isDone = () => {
+		if(this.state.done) {
+			this.setState({done: false, open: true})
+		}
+	};
+
+	handleClose = () => {
+		this.setState({ open: false });
+		this.refesh();
+	};
+
+	refesh() {
+		document.location.reload(true);
+	};
 
 	render() {
 		let loading = this.isLoading();
+		let done = this.isDone();
 		return (
 			<div className="content">
 			<Paper>
@@ -69,8 +94,26 @@ class UploadFile extends Component {
 						{loading}
 					</CardContent>
 					</form>
+					{done}
 				</CardContent>
 			</Paper>
+			<Dialog
+				open={this.state.open}
+				onClose={this.handleClose}
+				aria-labelledby="alert-dialog-title"
+				aria-describedby="alert-dialog-description">
+				<DialogTitle id="alert-dialog-title">{"Upload completed."}</DialogTitle>
+				<DialogContent>
+					<DialogContentText id="alert-dialog-description">
+						Upload completed.
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={this.handleClose} color="primary" autoFocus>
+						Close
+					</Button>
+				</DialogActions>
+			</Dialog>
 			</div>
 			);
 	}

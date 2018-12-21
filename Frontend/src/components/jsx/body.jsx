@@ -3,6 +3,8 @@ import SimpleBarchart from './simpleBarchart';
 import TimeSeriesLineChart from './timeSeriesLineChart';
 import ReactLoading from "react-loading";
 import axios from 'axios';
+import Paper from '@material-ui/core/Paper';
+import CardContent from '@material-ui/core/CardContent';
 
 class Body extends Component {
 
@@ -23,7 +25,7 @@ class Body extends Component {
 
 	async get_method_stack() {
 		await axios.get("http://localhost:8080/home/method").then((res) => {
-			// console.log("DataMethod", res.data.methods, res.data.tickss)
+			console.log("DataMethod", res.data.methods, res.data.tickss)
 			this.setState({ isLoadingMethod: false, dataMethod: res.data.methods, dataDate:res.data.ticks })
 		})
 		.catch(error => this.setState({ isLoadingMethod: false }));
@@ -31,7 +33,7 @@ class Body extends Component {
 
 	async get_req_count() {
 		await axios.get("http://localhost:8080/home/request").then((res) => {
-			// console.log("DataReq", res.data.requests, res.data.date)
+			console.log("DataReq", res.data.requests, res.data.date)
 			this.setState({ isLoadingReq: false, dataReq: res.data.requests, dataDateTimeSeries: res.data.date })
 		})
 		.catch(error => this.setState({ isLoadingReq: false }));
@@ -73,16 +75,17 @@ class Body extends Component {
 		
 		return (
 			<div>
-				<div className="row">
-						<div className="col">
-							{barcharts}
-						</div>
-				</div>
-				<div className="row">
-					<div className="col">
+				<Paper>
+					<CardContent>
+						{barcharts}
+					</CardContent>
+				</Paper>
+				<hr/>
+				<Paper>
+					<CardContent>
 						{timeSerires}
-					</div>
-				</div>
+					</CardContent>
+				</Paper>
 			</div>
 		);
 	};

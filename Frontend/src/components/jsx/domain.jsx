@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import ReactEcharts from 'echarts-for-react';
-
-var datafile = require('./data-1498994055008-rJJ5SUU4W.csv');
+import DomainD3 from './domainD3';
+import Paper from '@material-ui/core/Paper';
+import CardContent from '@material-ui/core/CardContent';
 
 class Domain extends Component {
 	state = {
@@ -97,8 +97,12 @@ class Domain extends Component {
 
 	render() {
 		return(
-			<div>
-				<ReactEcharts option={this.state.option} />
+			<div className="content">
+			<Paper>
+				<CardContent>
+					<DomainD3 />
+				</CardContent>
+			</Paper>
 			</div>
 			);
 	};

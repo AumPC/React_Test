@@ -37,7 +37,7 @@ class UploadFile extends Component {
 	}
 
 	fileUpload(file) {
-		const url = 'http://localhost:8080/upload';
+		const url = 'http://10.3.132.198:8080/upload';
 		// const url = 'http://10.3.132.198:8080/upload';
 		// const url = '/public/logs';
 		const formData = new FormData();

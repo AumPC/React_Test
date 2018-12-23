@@ -11,52 +11,68 @@ import CardContent from '@material-ui/core/CardContent';
 class Body extends Component {
 
 	state = {
+		date1: new Date(),
+		date2: new Date(),
+		min: new Date(),
+		max: new Date(),
 		isLoadingMethod: false,
 		isLoadingReq: false,
 		dataMethod: {},
 		dataDate: [],
 		dataDateTimeSeries: [],
 		dataReq: { Egress: [], Ingress: [] },
-		dummy: false,
-		dataDummyMe: {"methods":{"GET":[2204,2481,2250,2222,2761,4072,2275,1967,2113,1944],"HEAD":[74,58,62,62,59,93,52,36,41,16],"POST":[152,173,155,112,132,227,158,160,139,145],"HTTPS":[527,583,501,372,428,682,396,403,410,427],"DELETE":[0,0,0,0,0,0,0,0,0,0],"PUT":[1,0,0,0,0,0,0,0,0,0],"CONNECT":[0,0,0,0,0,0,0,0,0,0],"OPTIONS":[0,0,0,0,0,0,0,0,0,0],"TRACE":[0,0,0,0,0,0,0,0,0,0],"PATCH":[0,0,0,0,0,0,0,0,0,0]},"ticks":["2017-04-09T20:05:00.000Z","2017-04-09T20:05:30.000Z","2017-04-09T20:06:00.000Z","2017-04-09T20:06:30.000Z","2017-04-09T20:07:00.000Z","2017-04-09T20:07:30.000Z","2017-04-09T20:08:00.000Z","2017-04-09T20:08:30.000Z","2017-04-09T20:09:00.000Z","2017-04-09T20:09:30.000Z"]},
-		dataDummyReq: {"requests":{"Egress":[2958,3295,2968,2768,3380,5074,2881,2566,2703,2532],"Ingress":[2958,3295,2968,2768,3380,5074,2881,2566,2703,2532]},"date":["2017-04-09T20:05:00.000Z","2017-04-09T20:05:30.000Z","2017-04-09T20:06:00.000Z","2017-04-09T20:06:30.000Z","2017-04-09T20:07:00.000Z","2017-04-09T20:07:30.000Z","2017-04-09T20:08:00.000Z","2017-04-09T20:08:30.000Z","2017-04-09T20:09:00.000Z","2017-04-09T20:09:30.000Z"]}
 	};
 
 	async componentDidMount() {
-		await this.setState({ isLoadingMethod: true, isLoadingReq: true })
-		await this.get_method_stack()
-		await this.get_req_count()
-	}
+		await this.setState({ isLoadingMethod: true, isLoadingReq: true });
+		await this.get_method_stack();
+		await this.get_req_count();
+		await this.get_query();
+		await this.set_time_state();
+	};
+
+	componentDidUpdate() {
+		this.updateMinMax();
+	};
+
+	async set_time_state() {
+		this.setState({ date: new Date(),
+                    min: this.state.min,
+                    max: this.state.max });
+	};
+
+	async get_query() {
+		let req = "http://localhost:8080/request?start=" + this.state.min + "&end=" + this.state.max;
+		await axios.get(req).then((res) => {
+			console.log(res);
+			this.setState({date1: res.min, date2: res.max})
+		})
+		.catch(error => this.setState({ isLoadingTable: true }));
+	};
 
 	async get_method_stack() {
-		await axios.get("http://10.3.132.198:8080/home/method").then((res) => {
-			console.log("DataMethod", res.data.methods, res.data.tickss)
+		// await axios.get("http://10.3.132.198:8080/home/method").then((res) => {
+		await axios.get("http://localhost:8080/home/method").then((res) => {
+			// console.log("DataMethod", res.data.methods, res.data.tickss)
 			this.setState({ isLoadingMethod: false, dataMethod: res.data.methods, dataDate:res.data.ticks })
 		})
 		.catch(error => this.setState({ isLoadingMethod: false }));
-	}
+	};
 
 	async get_req_count() {
-		await axios.get("http://10.3.132.198:8080/home/request").then((res) => {
-			console.log("DataReq", res.data.requests, res.data.date)
+		// await axios.get("http://10.3.132.198:8080/home/request").then((res) => {
+		await axios.get("http://localhost:8080/home/request").then((res) => {
+			// console.log("DataReq", res.data.requests, res.data.date)
 			this.setState({ isLoadingReq: false, dataReq: res.data.requests, dataDateTimeSeries: res.data.date })
 		})
 		.catch(error => this.setState({ isLoadingReq: false }));
-	}
+	};
 
 	checkBarchartsIsLoading() {
 		if (this.state.isLoadingMethod || this.state.isLoadingReq) {
 			return <ReactLoading type="spinningBubbles" color="black"/>;
-		} else if (this.state.dummy) {
-			return(
-			<div className='body-container'>
-				<SimpleBarchart 
-					title = "# of requests method by time"
-					dataDate = {this.state.dataDummyMe['ticks']}
-					dataMethod = {this.state.dataDummyMe['methods']} />
-				</div>
-			);
 		} else {
+				console.log("barchart", this.state.dataReq, this.state.dataDateTimeSeries)
 			return (
 				<div className='body-container'>
 				<SimpleBarchart 
@@ -66,21 +82,13 @@ class Body extends Component {
 				</div>
 				);
 		}
-	}
+	};
 
 	checkTimeSeriesIsLoading() {
 		if (this.state.isLoadingMethod || this.state.isLoadingReq) {
 			return <ReactLoading type="spinningBubbles" color="black"/>;
-		} else if (this.state.dummy) {
-			return(
-				<div className='body-container'>
-				<TimeSeriesLineChart 
-					title = "# of requests method by time"
-					dataReq = {this.state.dataDummyReq['requests']}
-					dataDate = {this.state.dataDummyReq['date']} />
-				</div>
-				);
 		} else {
+				console.log("time series", this.state.dataReq, this.state.dataDateTimeSeries)
 			return (
 				<div className='body-container'>
 				<TimeSeriesLineChart 
@@ -92,28 +100,38 @@ class Body extends Component {
 		}
 	};
 
-	handleDummy(e) {
-		this.click()
-	}
+	onChange1 = (date) => {
+		this.setState({ date1: date, min: date })
+	};
 
-	click = () => {
-		this.setState({dummy: true});
+	onChange2 = (date) => {
+		this.setState({ date2: date, max: date })
+	};
 
-	}
+	handleSelect() {
+		this.get_query();
+	};
+
+	updateMinMax() {
+		console.log("min", this.state.min)
+		console.log("max", this.state.max)
+	};
+
 
 	render() {
 		let barcharts = this.checkBarchartsIsLoading();
 		let timeSerires = this.checkTimeSeriesIsLoading();
 		
-
-		console.log(this.state.dataReq)
-		console.log(this.state.dataDateTimeSeries)
-		console.log(this.state.dataDummyReq['requests'])
 		return (
 			<div>
 				<CardContent>
-					<Time />
-        			<Button color="primary" type="button" onClick={(e) => this.handleDummy(e)}>Select</Button>
+					<Time 	onChange1={this.onChange1}
+							onChange2={this.onChange2}
+							date1={this.state.date1}
+							date2={this.state.date2}
+							min={this.state.min}
+							max={this.state.max} />
+        			<Button color="primary" type="button" onClick={(e) => this.handleSelect(e)}>Select</Button>
 				</CardContent>
 				<Paper>
 					<CardContent>

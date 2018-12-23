@@ -6,13 +6,13 @@ router.use(function timeLog(req, res, next) {
   next()
 })
 
-async function query_method(interval) {
+async function query_method(startDate, endDate) {
   this.queryMethod = {
     "query": {
       "range": {
         "req_time_human": {
-          "gte": "2017-04-09T20:05:00.000Z",
-          "lte": "now"
+          "gte": "2017-04-09T20:00:00.000Z",
+          "lte": endDate
         }
       }
     },
@@ -65,7 +65,7 @@ async function query_method(interval) {
     });
 }
 
-async function query_request(interval) {
+async function query_request(startDate, endDate) {
   let egressRes = await get_count("Egress", [{ "regexp": { "src_ip.keyword": "158.108.*" } },
                                                   { "regexp": { "src_ip.keyword": "10.*" } } ])
   let ingressRes = await get_count("Ingress", [{ "regexp": { "dst_ip.keyword": "158.108.*" } },
@@ -90,8 +90,17 @@ async function get_count(types, query) {
   this.queryCount = await {
     "query": {
       "bool": {
-        "should": [ query ]
-      }
+        "should": [ query ],
+        "minimum_should_match" : 1,
+        "must": [{
+          "range": {
+            "req_time_human": {
+              "gte": "2017-04-09T20:00:00.000Z",
+              "lte": "now"
+            }
+          },
+        }],
+      },
     },
     "size": 0,
     "aggs": {
@@ -120,16 +129,18 @@ async function get_count(types, query) {
 }
 
 router.get('/request', (req, res) => {
-  const interval = req.query.interval;
-  query_request(interval).then((requests) => {
+  var startDate = (req.query.startDate) ? req.query.startDate : "2017-04-09T20:00:00.000Z"
+  var endDate = (req.query.endDate) ? req.query.endDate : "now"
+  query_request(startDate, endDate).then((requests) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(requests);
   });
 });
 
 router.get('/method', (req, res) => {
-  const interval = req.query.interval;
-  query_method(interval).then((methods) => {
+  const startDate = req.query.startDate;
+  const endDate = req.query.endDate;
+  query_method(startDate, endDate).then((methods) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(methods);
   });

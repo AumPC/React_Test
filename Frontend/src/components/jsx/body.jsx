@@ -42,12 +42,12 @@ class Body extends Component {
 	};
 
 	async get_query() {
-		let req = "http://localhost:8080/request?start=" + this.state.min + "&end=" + this.state.max;
+		let req = "http://localhost:8080/home/request?startDate=" + this.state.min + "&endDate=" + this.state.max;
 		await axios.get(req).then((res) => {
 			console.log(res);
 			this.setState({date1: res.min, date2: res.max})
 		})
-		.catch(error => this.setState({ isLoadingTable: true }));
+		.catch(error => console.log(error));
 	};
 
 	async get_method_stack() {

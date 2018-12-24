@@ -24,7 +24,7 @@ import Calendar from '../Calendar';
 
 import EgressIngressPage from '../../components/jsx/egressIngressPage';
 import World from '../../components/jsx/world';
-import Domain from '../../components/jsx/domain';
+import DomainD3 from '../../components/jsx/domainD3';
 import UploadFile from "../../components/jsx/uploadFile";
 
 
@@ -55,7 +55,7 @@ const Main = ({
           <Route path="/ingress-egress" component={EgressIngressPage} />
           <Route path="/world" component={World} />
           <Route path="/charts" component={Charts} />
-          <Route path="/domain" component={Domain} />
+          <Route path="/domain" component={DomainD3} />
           <Footer />
         </div>
       </div>

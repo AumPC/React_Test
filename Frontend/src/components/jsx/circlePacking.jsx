@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as d3 from "d3";
 
-class Temp extends Component {
+class CirclePacking extends Component {
 
     componentDidMount() {
         this.drawChart();
@@ -52,7 +52,7 @@ class Temp extends Component {
                 .attr("class", "label")
                 .style("fill-opacity", function (d) { return d.parent === root ? 1 : 0; })
                 .style("display", function (d) { return d.parent === root ? "inline" : "none"; })
-                .style("font-size", function (d) { console.log(d.r);return (d.r > 45) ? (d.r > 25) ? '40px' : '20px' : '15px'})
+                .style("font-size", function (d) { return (d.r > 45) ? (d.r > 25) ? '40px' : '20px' : '15px'})
                 .attr("dx", "-1em")
                 .text(function (d) { return d.data.name; });
 
@@ -93,4 +93,4 @@ class Temp extends Component {
     }
 }
 
-export default Temp;
+export default CirclePacking;

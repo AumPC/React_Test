@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
 
 
@@ -13,7 +13,6 @@ class TimeSeriesLineChart extends Component {
 
 	componentDidUpdate(prevProps) {
 		if (this.props.dataDate !== prevProps.dataDate) {
-			// console.log('true')
 			this.setOptions();
 		}
 	};
@@ -25,7 +24,7 @@ class TimeSeriesLineChart extends Component {
 			this.series.push(
 				{
 					name: data,
-					type:'line',
+					type: 'line',
 					data: this.props.dataReq[data]
 				}
 			)
@@ -68,42 +67,40 @@ class TimeSeriesLineChart extends Component {
 					data: this.legend
 				},
 				xAxis: [
-				{
-					type: 'category',
-					name: 'Time',
-					data: this.props.dataDate,
-					axisPointer: {
-						type: 'shadow'
-					},
-					axisLabel: {
-						// rotate: 45,
-						fontSize: 8
+					{
+						type: 'category',
+						name: 'Time',
+						data: this.props.dataDate,
+						axisPointer: {
+							type: 'shadow'
+						},
+						axisLabel: {
+							// rotate: 45,
+							fontSize: 8
+						}
 					}
-				}
 				],
 				yAxis: [
-				{
-					type: 'value',
-					name: 'Requests',
-					min: 0,
-					axisLabel: {
-						formatter: '{value} req'
+					{
+						type: 'value',
+						name: 'Requests',
+						min: 0,
+						axisLabel: {
+							formatter: '{value} req'
+						}
 					}
-				}
 				],
 				series: this.series
 			}
 		});
 	}
 
-	render () {
-		// console.log('thisdata', this.props.dataEgress['date'])
-
+	render() {
 		return (
 			<div>
 				<ReactEcharts option={this.state.option} />
 			</div>
-			);
+		);
 	};
 };
 

@@ -4,11 +4,8 @@ import axios from 'axios';
 
 
 class Time extends Component {
-  state = {
-    
-  };
+  state = { };
 
- 
   render() {
     return (
       <span>

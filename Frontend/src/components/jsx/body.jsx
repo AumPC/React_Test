@@ -24,7 +24,7 @@ class Body extends Component {
 	};
 
 	async componentDidMount() {
-		await this.setState({ isLoadingMethod: true, isLoadingReq: true, isLoadingDate: true});
+		await this.setState({ isLoadingMethod: true, isLoadingReq: true, isLoadingDate: true });
 		await this.set_time_state();
 		await this.get_method_stack();
 		await this.get_req_count();
@@ -33,78 +33,80 @@ class Body extends Component {
 	async set_time_state() {
 		await axios.get("http://10.3.132.198:8080/web-anon/time").then((res) => {
 			// console.log('res', res, res.data.min, res.data.max)
-			this.setState({ date1: new Date(res.data.min),
-							date2: new Date(res.data.max),
-							isLoadingDate: false });
+			this.setState({
+				date1: new Date(res.data.min),
+				date2: new Date(res.data.max),
+				isLoadingDate: false
+			});
 		})
-		.catch(error => console.log(error));
+			.catch(error => console.log(error));
 	};
 
 	async get_method_stack() {
-		await axios.get("http://10.3.132.198:8080/home/method?startDate="+this.state.date1.toISOString()+"&endDate="+this.state.date2.toISOString()).then((res) => {
+		await axios.get("http://10.3.132.198:8080/home/method?startDate=" + this.state.date1.toISOString() + "&endDate=" + this.state.date2.toISOString()).then((res) => {
 			// console.log("DataMethod", res.data.methods, res.data.ticks)
-			var date = res.data.ticks.map(dateString => new Date(dateString).toLocaleString('en-US',{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12: true, hour: "numeric", minute: "numeric", second:"numeric"}))
-			this.setState({ isLoadingMethod: false, dataMethod: res.data.methods, dataDate:date })
+			var date = res.data.ticks.map(dateString => new Date(dateString).toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12: true, hour: "numeric", minute: "numeric", second: "numeric" }))
+			this.setState({ isLoadingMethod: false, dataMethod: res.data.methods, dataDate: date })
 		})
-		.catch(error => this.setState({ isLoadingMethod: false }));
+			.catch(error => this.setState({ isLoadingMethod: false }));
 	};
 
 	async get_req_count() {
-		await axios.get("http://10.3.132.198:8080/home/request?startDate="+this.state.date1.toISOString()+"&endDate="+this.state.date2.toISOString()).then((res) => {
+		await axios.get("http://10.3.132.198:8080/home/request?startDate=" + this.state.date1.toISOString() + "&endDate=" + this.state.date2.toISOString()).then((res) => {
 			// console.log("DataReq", res.data.requests, res.data.date)
-			var date = res.data.date.map(dateString => new Date(dateString).toLocaleString('en-US',{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12: true, hour: "numeric", minute: "numeric", second:"numeric"}))
+			var date = res.data.date.map(dateString => new Date(dateString).toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12: true, hour: "numeric", minute: "numeric", second: "numeric" }))
 			this.setState({ isLoadingReq: false, dataReq: res.data.requests, dataDateTimeSeries: date })
 		})
-		.catch(error => this.setState({ isLoadingReq: false }));
+			.catch(error => this.setState({ isLoadingReq: false }));
 	};
 
 	checkBarchartsIsLoading() {
 		if (this.state.isLoadingDate) {
-			return <ReactLoading type="spinningBubbles" color="black"/>;
+			return <ReactLoading type="spinningBubbles" color="black" />;
 		} else {
-				// console.log("barchart", this.state.dataReq, this.state.dataDateTimeSeries)
+			// console.log("barchart", this.state.dataReq, this.state.dataDateTimeSeries)
 			return (
 				<div className='body-container'>
-				<SimpleBarchart 
-					title = "# of requests method by time"
-					dataDate = {this.state.dataDate}
-					dataMethod = {this.state.dataMethod} />
+					<SimpleBarchart
+						title="# of requests method by time"
+						dataDate={this.state.dataDate}
+						dataMethod={this.state.dataMethod} />
 				</div>
-				);
+			);
 		}
 	};
 
 	checkTimePickerIsLoading() {
 		if (this.state.isLoadingMethod || this.state.isLoadingReq) {
-			return <ReactLoading type="spinningBubbles" color="black"/>;
+			return <ReactLoading type="spinningBubbles" color="black" />;
 		} else {
-				// console.log("barchart", this.state.dataReq, this.state.dataDateTimeSeries)
+			// console.log("barchart", this.state.dataReq, this.state.dataDateTimeSeries)
 			return (
 				<div className='body-container'>
-					<Time 	onChange1={this.onChange1}
-							onChange2={this.onChange2}
-							date1={this.state.date1}
-							date2={this.state.date2}
+					<Time onChange1={this.onChange1}
+						onChange2={this.onChange2}
+						date1={this.state.date1}
+						date2={this.state.date2}
 					/>
-        			<Button color="primary" type="button" onClick={(e) => this.handleSelect(e)}>Select</Button>
+					<Button color="primary" type="button" onClick={(e) => this.handleSelect(e)}>Select</Button>
 				</div>
-				);
+			);
 		}
 	};
 
 	checkTimeSeriesIsLoading() {
 		if (this.state.isLoadingMethod || this.state.isLoadingReq) {
-			return <ReactLoading type="spinningBubbles" color="black"/>;
+			return <ReactLoading type="spinningBubbles" color="black" />;
 		} else {
-				// console.log("time series", this.state.dataReq, this.state.dataDateTimeSeries)
+			// console.log("time series", this.state.dataReq, this.state.dataDateTimeSeries)
 			return (
 				<div className='body-container'>
-				<TimeSeriesLineChart 
-					title = "# of requests method by time"
-					dataReq = {this.state.dataReq}
-					dataDate = {this.state.dataDateTimeSeries} />
+					<TimeSeriesLineChart
+						title="# of requests method by time"
+						dataReq={this.state.dataReq}
+						dataDate={this.state.dataDateTimeSeries} />
 				</div>
-				);
+			);
 		}
 	};
 
@@ -117,7 +119,7 @@ class Body extends Component {
 	};
 
 	async handleSelect() {
-		await this.setState({ isLoadingMethod: true, isLoadingReq: true});
+		await this.setState({ isLoadingMethod: true, isLoadingReq: true });
 		await this.get_method_stack();
 		await this.get_req_count();
 	};
@@ -136,7 +138,7 @@ class Body extends Component {
 						{barcharts}
 					</CardContent>
 				</Paper>
-				<hr/>
+				<hr />
 				<Paper>
 					<CardContent>
 						{timeSerires}

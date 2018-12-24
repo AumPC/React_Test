@@ -29,8 +29,6 @@ class DomainD3 extends Component {
 			.catch(error => this.setState({ isLoadingTable: true }));
 	};
 
-
-
 	async setData() {
 		this.setState({
 			data1: {
@@ -41,7 +39,6 @@ class DomainD3 extends Component {
 		});
 	}
 
-
 	isLoading() {
 		if (this.state.isLoading) {
 			return <ReactLoading type="spinningBubbles" color="black" />
@@ -49,7 +46,6 @@ class DomainD3 extends Component {
 			return (<CirclePacking data={this.state.data1} id={this.state.id} />)
 		}
 	};
-
 
 	render() {
 		let isLoading = this.isLoading();

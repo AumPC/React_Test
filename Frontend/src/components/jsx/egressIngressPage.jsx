@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Tables from './tables';
 import ReactLoading from "react-loading";
 import axios from 'axios';
@@ -9,19 +9,19 @@ class EgressIngressPage extends Component {
 	state = {
 		isLoadingTable: false,
 		tableData: [{
-				username: "sdgs",
-				egress: 8148,
-				ingress: 15125,
-				total: 32525,
-				last: 32525
-			},
-			{
-				username: "mvmvmb",
-				egress: 23526,
-				ingress: 235952,
-				total: 245253,
-				last: 325235
-			}]
+			username: "sdgs",
+			egress: 8148,
+			ingress: 15125,
+			total: 32525,
+			last: 32525
+		},
+		{
+			username: "mvmvmb",
+			egress: 23526,
+			ingress: 235952,
+			total: 245253,
+			last: 325235
+		}]
 	};
 
 	async componentDidMount() {
@@ -30,7 +30,7 @@ class EgressIngressPage extends Component {
 	}
 
 	async get_table() {
-		let i=0;
+		let i = 0;
 		let table = []
 		let dummy = {
 			username: "",
@@ -42,13 +42,13 @@ class EgressIngressPage extends Component {
 		}
 		await axios.get("http://10.3.132.198:8080/usertable").then((res) => {
 			// console.log("DataTable", res.data.requests[0], res.data.requests.length)
-			for(i; i<res.data.requests.length; i++) {
+			for (i; i < res.data.requests.length; i++) {
 				dummy['username'] = res.data.requests[i][0]['user']
 				dummy['ip'] = res.data.requests[i][0]['ip']
 				dummy['egress'] = res.data.requests[i][0]['egress']
 				dummy['ingress'] = res.data.requests[i][0]['ingress']
 				dummy['total'] = res.data.requests[i][0]['ingress'] + res.data.requests[i][0]['egress']
-				dummy['last'] = new Date(res.data.requests[i][0]['time']).toLocaleString('en-US',{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12: true, hour: "numeric", minute: "numeric", second:"numeric"})
+				dummy['last'] = new Date(res.data.requests[i][0]['time']).toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12: true, hour: "numeric", minute: "numeric", second: "numeric" })
 				table.push(dummy)
 				dummy = {
 					username: "",
@@ -61,23 +61,23 @@ class EgressIngressPage extends Component {
 			}
 			this.setState({ isLoadingTable: false, tableData: table })
 		})
-		.catch(error => this.setState({ isLoadingTable: false }));
+			.catch(error => this.setState({ isLoadingTable: false }));
 	}
 
 	checkIsLoading() {
 		if (this.state.isLoadingTable) {
-			return <ReactLoading type="spinningBubbles" color="black"/>;
+			return <ReactLoading type="spinningBubbles" color="black" />;
 		} else {
 			return (
-					<Tables
-						data={this.state.tableData} />
-				);
+				<Tables
+					data={this.state.tableData} />
+			);
 		}
 	}
 
 	render() {
 		let render = this.checkIsLoading();
-		return(
+		return (
 			<div className="content">
 				<Paper>
 					<CardContent>
@@ -85,7 +85,7 @@ class EgressIngressPage extends Component {
 					</CardContent>
 				</Paper>
 			</div>
-			);
+		);
 	};
 };
 

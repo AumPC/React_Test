@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import axios from 'axios';
 import CardContent from '@material-ui/core/CardContent';
@@ -25,9 +25,9 @@ class World extends Component {
 
 	async get_world() {
 		await axios.get("http://10.3.132.198:8080/map").then((res) => {
-			this.setState({egress: res.data.Egress, ingress: res.data.Ingress, total: res.data.Total, map: "total"})
+			this.setState({ egress: res.data.Egress, ingress: res.data.Ingress, total: res.data.Total, map: "total" })
 		})
-		.catch(error => this.setState({ isLoadingTable: true }));
+			.catch(error => this.setState({ isLoadingTable: true }));
 	};
 
 	setOptions = () => {
@@ -38,40 +38,41 @@ class World extends Component {
 					subtext: 'Ingress/Egress from countries',
 					left: 'center'
 				},
-			    tooltip: {
-			        trigger: 'item',
+				tooltip: {
+					trigger: 'item',
 					formatter: function (params) {
-						return params.seriesName + '<br/>' + params.name + ' : ' + Math.pow(params.value,2).toFixed(0) ;
+						return params.seriesName + '<br/>' + params.name + ' : ' + Math.pow(params.value, 2).toFixed(0);
 					}
-			    },
-			    visualMap: {
-			    	min: 0,
-			    	max: this.state.egress.max,
-			    	left: 'left',
+				},
+				visualMap: {
+					min: 0,
+					max: this.state.egress.max,
+					left: 'left',
 					top: 'bottom',
 					precision: 0,
-			    	text: ['high','low'],
+					text: ['high', 'low'],
 					calculable: false,
 					inRange: {
 						color: ["#ADD7F6", "#3F8EFC", "#3B28CC"],
 						symbolSize: [20, 100]
 					}
-			    },
-			    series: [
-				    {	name: "Total",
-				    	type: "map",
-				    	mapType: "world",
-				    	label: {
-				    		normal: {
-				    			show: false
-				    		},
-					    	emphasis: {
-					    		show: true
-						    }
+				},
+				series: [
+					{
+						name: "Total",
+						type: "map",
+						mapType: "world",
+						label: {
+							normal: {
+								show: false
+							},
+							emphasis: {
+								show: true
+							}
 						},
 						data: this.state.total.data
 					}
-			    ]
+				]
 			},
 			option2: {
 				title: {
@@ -79,38 +80,39 @@ class World extends Component {
 					subtext: 'Egress from countries',
 					left: 'center'
 				},
-			    tooltip: {
-			        trigger: 'item',
+				tooltip: {
+					trigger: 'item',
 					formatter: function (params) {
-						return params.seriesName + '<br/>' + params.name + ' : ' + Math.pow(params.value,2).toFixed(0) ;
+						return params.seriesName + '<br/>' + params.name + ' : ' + Math.pow(params.value, 2).toFixed(0);
 					}
-			    },
-			    visualMap: {
-			    	min: 0,
-			    	max: this.state.egress.max,
-			    	left: 'left',
+				},
+				visualMap: {
+					min: 0,
+					max: this.state.egress.max,
+					left: 'left',
 					top: 'bottom',
 					precision: 0,
-			    	text: ['high','low'],
+					text: ['high', 'low'],
 					calculable: false,
 					inRange: {
 						color: ["#ADD7F6", "#3F8EFC", "#3B28CC"],
 						symbolSize: [20, 100]
 					}
-			    },
-			    series: [{	name: "Egress",
-				    	type: "map",
-				    	mapType: "world",
-				    	label: {
-				    		normal: {
-				    			show: false
-				    		},
-					    	emphasis: {
-					    		show: true
-						    }
+				},
+				series: [{
+					name: "Egress",
+					type: "map",
+					mapType: "world",
+					label: {
+						normal: {
+							show: false
 						},
-						data: this.state.egress.data
-					}]
+						emphasis: {
+							show: true
+						}
+					},
+					data: this.state.egress.data
+				}]
 			},
 			option3: {
 				title: {
@@ -118,38 +120,39 @@ class World extends Component {
 					subtext: 'Ingress from countries',
 					left: 'center'
 				},
-			    tooltip: {
-			        trigger: 'item',
+				tooltip: {
+					trigger: 'item',
 					formatter: function (params) {
-						return params.seriesName + '<br/>' + params.name + ' : ' + Math.pow(params.value,2).toFixed(0) ;
+						return params.seriesName + '<br/>' + params.name + ' : ' + Math.pow(params.value, 2).toFixed(0);
 					}
-			    },
-			    visualMap: {
-			    	min: 0,
-			    	max: this.state.egress.max,
-			    	left: 'left',
+				},
+				visualMap: {
+					min: 0,
+					max: this.state.egress.max,
+					left: 'left',
 					top: 'bottom',
 					precision: 0,
-			    	text: ['high','low'],
+					text: ['high', 'low'],
 					calculable: false,
 					inRange: {
 						color: ["#ADD7F6", "#3F8EFC", "#3B28CC"],
 						symbolSize: [20, 100]
 					}
-			    },
-			    series: [{	name: "Ingress",
-				    	type: "map",
-				    	mapType: "world",
-				    	label: {
-				    		normal: {
-				    			show: false
-				    		},
-					    	emphasis: {
-					    		show: true
-						    }
+				},
+				series: [{
+					name: "Ingress",
+					type: "map",
+					mapType: "world",
+					label: {
+						normal: {
+							show: false
 						},
-						data: this.state.ingress.data
-					}]
+						emphasis: {
+							show: true
+						}
+					},
+					data: this.state.ingress.data
+				}]
 			}
 		})
 	};
@@ -159,40 +162,40 @@ class World extends Component {
 	};
 
 	handleTotal = () => {
-		this.setState({map: "total"});
+		this.setState({ map: "total" });
 	};
 
 	handleEgress = () => {
-		this.setState({map: "egress"});
+		this.setState({ map: "egress" });
 	};
 
 
 	handleIngress = () => {
-		this.setState({map: "ingress"});
+		this.setState({ map: "ingress" });
 	};
 
 	handleMap() {
 		if (this.state.map === "total") {
-			return(
+			return (
 				<div>
-				<ReactEcharts
-							option={this.state.option1}
-							style={{height: '600%', width: '100%'}} />
+					<ReactEcharts
+						option={this.state.option1}
+						style={{ height: '600%', width: '100%' }} />
 				</div>);
 		} else if (this.state.map === "egress") {
-			return(<ReactEcharts
-							option={this.state.option2}
-							style={{height: '600%', width: '100%'}} />);
+			return (<ReactEcharts
+				option={this.state.option2}
+				style={{ height: '600%', width: '100%' }} />);
 		} else {
-			return(<ReactEcharts
-							option={this.state.option3}
-							style={{height: '600%', width: '100%'}} />);
+			return (<ReactEcharts
+				option={this.state.option3}
+				style={{ height: '600%', width: '100%' }} />);
 		}
 	};
 
 	render() {
 		let map = this.handleMap();
-		return(
+		return (
 			<div className="content">
 				<Button color="secondary" type="button" onClick={this.handleTotal}>Total</Button>
 				<Button color="secondary" type="button" onClick={this.handleEgress}>Egress</Button>
@@ -203,7 +206,7 @@ class World extends Component {
 					</CardContent>
 				</Paper>
 			</div>
-			);
+		);
 	};
 };
 

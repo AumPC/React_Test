@@ -1,13 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
 
 
 class SimpleBarchart extends Component {
 	state = {
 		color: ['#B3E5FC', '#81D4FA', '#4FC3F7', '#29B6F6', '#03A9F4', '#039BE5', '#0288D1', '#0277BD', '#01579B'],
-		option: {
-			
-		}
+		option: {}
 	};
 
 	componentDidMount() {
@@ -47,7 +45,7 @@ class SimpleBarchart extends Component {
 					data: this.legend,
 					align: 'auto',
 					width: '450'
-					},
+				},
 				grid: {
 					left: '3%',
 					right: '13%',
@@ -56,8 +54,8 @@ class SimpleBarchart extends Component {
 				},
 				tooltip: {
 					trigger: 'axis',
-					axisPointer : {
-						type : 'shadow'
+					axisPointer: {
+						type: 'shadow'
 					}
 				},
 				xAxis: {
@@ -77,15 +75,16 @@ class SimpleBarchart extends Component {
 					}
 				},
 				series: this.series
-			}}, this.render);
+			}
+		}, this.render);
 	};
 
-	render () {
+	render() {
 		return (
 			<div>
 				<ReactEcharts option={this.state.option} />
 			</div>
-			);
+		);
 	};
 };
 

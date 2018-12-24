@@ -53,6 +53,8 @@ class DomainD3 extends Component {
 			<div className="content">
 				<Paper>
 					<CardContent>
+						<h3>Domain Hits</h3>
+						<hr />
 						<div className="temp_circle">
 							{isLoading}
 						</div>

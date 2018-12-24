@@ -100,7 +100,7 @@ class Body extends Component {
 		} else {
 			// console.log("time series", this.state.dataReq, this.state.dataDateTimeSeries)
 			return (
-				<div className='body-container'>
+				<div className='body-container' styles="align:center">
 					<TimeSeriesLineChart
 						title="# of requests method by time"
 						dataReq={this.state.dataReq}

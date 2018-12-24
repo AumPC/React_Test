@@ -81,6 +81,8 @@ class EgressIngressPage extends Component {
 			<div className="content">
 				<Paper>
 					<CardContent>
+						<h3>Top Most User</h3>
+						<hr />
 						{render}
 					</CardContent>
 				</Paper>

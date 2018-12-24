@@ -15,7 +15,8 @@ class World extends Component {
 		egress: [],
 		ingress: [],
 		total: [],
-		map: "total"
+		map: "total",
+		color: ["#d4d4d4", "#639cff", "#0623ff"]
 	};
 
 	async componentDidMount() {
@@ -53,7 +54,7 @@ class World extends Component {
 					text: ['high', 'low'],
 					calculable: false,
 					inRange: {
-						color: ["#ADD7F6", "#3F8EFC", "#3B28CC"],
+						color: this.state.color,
 						symbolSize: [20, 100]
 					}
 				},
@@ -95,7 +96,7 @@ class World extends Component {
 					text: ['high', 'low'],
 					calculable: false,
 					inRange: {
-						color: ["#ADD7F6", "#3F8EFC", "#3B28CC"],
+						color: this.state.color,
 						symbolSize: [20, 100]
 					}
 				},
@@ -135,7 +136,7 @@ class World extends Component {
 					text: ['high', 'low'],
 					calculable: false,
 					inRange: {
-						color: ["#ADD7F6", "#3F8EFC", "#3B28CC"],
+						color: this.state.color,
 						symbolSize: [20, 100]
 					}
 				},

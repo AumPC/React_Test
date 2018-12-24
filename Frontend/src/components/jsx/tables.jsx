@@ -46,7 +46,7 @@ class Tables extends Component {
 							]
 						}
 					]}
-					defaultPageSize={10}
+					defaultPageSize={15}
 					className="-striped -highlight"
 				/>
 			</div>

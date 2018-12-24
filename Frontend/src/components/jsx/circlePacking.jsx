@@ -14,8 +14,8 @@ class CirclePacking extends Component {
         var h = window.innerHeight;
 
         const svg = d3.select("#temp_circle").append("svg")
-            .attr("width", w * 0.5)
-            .attr("height", w * 0.5);
+            .attr("width", w * 0.45)
+            .attr("height", w * 0.45);
         var margin = 20,
             diameter = +svg.attr("width"),
             g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
@@ -43,7 +43,7 @@ class CirclePacking extends Component {
             .enter().append("circle")
             .attr("class", function (d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
             .style("fill", function (d) { return d.children ? color(d.depth) : "#ADD7F6"; })
-            .style("fill-opacity", 0.7)
+            .style("fill-opacity", 0.8)
             .on("click", function (d) { if (focus !== d && d.depth < 3) zoom(d), d3.event.stopPropagation(); });
 
         var text = g.selectAll("text")

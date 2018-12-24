@@ -16,7 +16,7 @@ class World extends Component {
 		ingress: [],
 		total: [],
 		map: "total",
-		color: ["#d4d4d4", "#639cff", "#0623ff"]
+		color: ["#e6e6ff", "#0000ff", "#0000b3"]
 	};
 
 	async componentDidMount() {
@@ -55,7 +55,7 @@ class World extends Component {
 					calculable: false,
 					inRange: {
 						color: this.state.color,
-						symbolSize: [20, 100]
+						symbolSize: [70, 100]
 					}
 				},
 				series: [

@@ -52,8 +52,8 @@ class Temp extends Component {
                 .attr("class", "label")
                 .style("fill-opacity", function (d) { return d.parent === root ? 1 : 0; })
                 .style("display", function (d) { return d.parent === root ? "inline" : "none"; })
-                .style("font-size", function (d) { return (d.r > 20) ? '20px' : '15px' })
-                .attr("dx", "-.8em")
+                .style("font-size", function (d) { console.log(d.r);return (d.r > 45) ? (d.r > 25) ? '40px' : '20px' : '15px'})
+                .attr("dx", "-1em")
                 .text(function (d) { return d.data.name; });
 
             var node = g.selectAll("circle,text");

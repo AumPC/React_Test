@@ -37,8 +37,7 @@ class Body extends Component {
 	};
 
 	async set_time_state() {
-		// await axios.get("http://10.3.132.198:8080/web-anon/time").then((res) => {
-		await axios.get("http://localhost:8080/web-anon/time").then((res) => {
+		await axios.get("http://10.3.132.198:8080/web-anon/time").then((res) => {
 			console.log('res', res, res.data.min, res.data.max)
 			this.setState({ min: res.data.min,
 							max: res.data.max,
@@ -50,8 +49,7 @@ class Body extends Component {
 	};
 
 	async get_method_stack() {
-		// await axios.get("http://10.3.132.198:8080/home/method").then((res) => {
-		await axios.get("http://localhost:8080/home/method?startDate="+this.state.min+"&endDate="+this.state.max).then((res) => {
+		await axios.get("http://10.3.132.198:8080/home/method?startDate="+this.state.min+"&endDate="+this.state.max).then((res) => {
 			console.log("DataMethod", this.state.min, res.data.methods, res.data.ticks)
 			var date = res.data.ticks.map(dateString => new Date(dateString).toLocaleString('en-US',{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12: true, hour: "numeric", minute: "numeric", second:"numeric"}))
 			this.setState({ isLoadingMethod: false, dataMethod: res.data.methods, dataDate:date })
@@ -60,7 +58,7 @@ class Body extends Component {
 	};
 
 	async get_req_count() {
-		await axios.get("http://localhost:8080/home/request?startDate="+this.state.min+"&endDate="+this.state.max).then((res) => {
+		await axios.get("http://10.3.132.198:8080/home/request?startDate="+this.state.min+"&endDate="+this.state.max).then((res) => {
 			console.log("DataReq", res.data.requests, res.data.date)
 			var date = res.data.date.map(dateString => new Date(dateString).toLocaleString('en-US',{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12: true, hour: "numeric", minute: "numeric", second:"numeric"}))
 			this.setState({ isLoadingReq: false, dataReq: res.data.requests, dataDateTimeSeries: date })

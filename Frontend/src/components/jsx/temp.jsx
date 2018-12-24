@@ -44,7 +44,7 @@ class Temp extends Component {
                 .enter().append("circle")
                 .attr("class", function (d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
                 .style("fill", function (d) { return d.children ? color(d.depth) : "#ADD7F6"; })
-                .on("click", function (d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+                .on("click", function (d) { if (focus !== d && d.depth < 3) zoom(d), d3.event.stopPropagation(); });
 
             var text = g.selectAll("text")
                 .data(nodes)
@@ -52,6 +52,8 @@ class Temp extends Component {
                 .attr("class", "label")
                 .style("fill-opacity", function (d) { return d.parent === root ? 1 : 0; })
                 .style("display", function (d) { return d.parent === root ? "inline" : "none"; })
+                .style("font-size", function (d) { return (d.r > 20) ? '20px' : '15px' })
+                .attr("dx", "-.8em")
                 .text(function (d) { return d.data.name; });
 
             var node = g.selectAll("circle,text");

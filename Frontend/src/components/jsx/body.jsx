@@ -16,19 +16,23 @@ class Body extends Component {
 		dataDate: [],
 		dataDateTimeSeries: [],
 		dataReq: { Egress: [], Ingress: [] },
-		date: new Date(),
-		min:0,
-		max:0
+		date: '',
+		min:'',
+		max:''
 	};
 
 	async componentDidMount() {
+		await this.selectButton()
+	}
+
+	async selectButton() {
 		await this.setState({ isLoadingMethod: true, isLoadingReq: true })
 		await this.get_method_stack()
 		await this.get_req_count()
 	}
 
 	async get_method_stack() {
-		await axios.get("http://localhost:8080/home/method").then((res) => {
+		await axios.get("http://localhost:8080/home/method?startDate="+this.state.min+"&endDate="+this.state.max).then((res) => {
 			console.log("DataMethod", res.data.methods, res.data.tickss)
 			this.setState({ isLoadingMethod: false, dataMethod: res.data.methods, dataDate:res.data.ticks })
 		})
@@ -36,7 +40,7 @@ class Body extends Component {
 	}
 
 	async get_req_count() {
-		await axios.get("http://localhost:8080/home/request?start="+this.state.min+"&end="+this.state.max).then((res) => {
+		await axios.get("http://localhost:8080/home/request?startDate="+this.state.min+"&endDate="+this.state.max).then((res) => {
 			console.log("DataReq", res.data.requests, res.data.date)
 			this.setState({ isLoadingReq: false, dataReq: res.data.requests, dataDateTimeSeries: res.data.date })
 		})

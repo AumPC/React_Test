@@ -57,7 +57,6 @@ async function query_method(startDate, endDate) {
         }
       }
       // console.log("DataMethod", this.dataMethod, Object.keys(this.datas))
-      console.log("GET DataMethod")
       return { "methods": this.dataMethod, "ticks": Object.keys(this.datas) }
     })
     .catch(error => {

@@ -37,7 +37,6 @@ async function get_index() {
             //     'min': res['data']['aggregations']['time']['min_as_string'],
             //     'max': res['data']['aggregations']['time']['max_as_string']
             // }
-            console.log(this.datas)
             return this.datas
         })
 }

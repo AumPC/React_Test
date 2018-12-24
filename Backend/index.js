@@ -14,12 +14,12 @@ app.use(cors());
 
 app.use(fileUpload());
 app.post('/upload', function (req, res) {
-    console.log(req.files)
+    // console.log(req.files)
     if (Object.keys(req.files).length == 0) {
         return res.status(400).send('No files were uploaded.');
     }
     let file = req.files.file;
-    console.log(req.files)
+    // console.log(req.files)
     file.mv(`${__dirname}` + '/public/logs/' + file.name, function (err) {
         if (err) return res.status(500).send(err);
         res.send('File uploaded!');

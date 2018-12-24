@@ -12,10 +12,12 @@ class Time extends Component {
   render() {
     return (
       <span>
+        <span> From </span>
         <DateTimePicker
           onChange={this.props.onChange1}
           value={this.props.date1}
         />
+        <span> To           </span>
         <DateTimePicker
           onChange={this.props.onChange2}
           value={this.props.date2}

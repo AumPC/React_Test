@@ -11,7 +11,7 @@ async function query_method(startDate, endDate) {
     "query": {
       "range": {
         "req_time_human": {
-          "gte": "2017-04-09T20:00:00.000Z",
+          "gte": startDate,
           "lte": endDate
         }
       }
@@ -67,9 +67,9 @@ async function query_method(startDate, endDate) {
 
 async function query_request(startDate, endDate) {
   let egressRes = await get_count("Egress", [{ "regexp": { "src_ip.keyword": "158.108.*" } },
-                                                  { "regexp": { "src_ip.keyword": "10.*" } } ])
+                                                  { "regexp": { "src_ip.keyword": "10.*" } } ], startDate, endDate)
   let ingressRes = await get_count("Ingress", [{ "regexp": { "dst_ip.keyword": "158.108.*" } },
-                                                  { "regexp": { "dst_ip.keyword": "10.*" } } ])
+                                                  { "regexp": { "dst_ip.keyword": "10.*" } } ], startDate, endDate)
   let date = await Object.keys((egressRes)).concat(Object.keys((ingressRes))).reduce(function (a, b) {
     if (a.indexOf(b) < 0) a.push(b);
     return a;
@@ -86,7 +86,7 @@ async function query_request(startDate, endDate) {
   return { requests: this.dataReq, date: (date) }
 }
 
-async function get_count(types, query) {
+async function get_count(types, query, startDate, endDate) {
   this.queryCount = await {
     "query": {
       "bool": {
@@ -95,8 +95,8 @@ async function get_count(types, query) {
         "must": [{
           "range": {
             "req_time_human": {
-              "gte": "2017-04-09T20:00:00.000Z",
-              "lte": "now"
+              "gte": startDate,
+              "lte": endDate
             }
           },
         }],

@@ -48,7 +48,7 @@ class EgressIngressPage extends Component {
 				dummy['egress'] = res.data.requests[i][0]['egress']
 				dummy['ingress'] = res.data.requests[i][0]['ingress']
 				dummy['total'] = res.data.requests[i][0]['ingress'] + res.data.requests[i][0]['egress']
-				dummy['last'] = res.data.requests[i][0]['time']
+				dummy['last'] = new Date(res.data.requests[i][0]['time']).toLocaleString('en-US',{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12: true, hour: "numeric", minute: "numeric", second:"numeric"})
 				// console.log(i, dummy)
 				table.push(dummy)
 				dummy = {

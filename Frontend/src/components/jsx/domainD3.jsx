@@ -4,7 +4,7 @@ import CirclePacking from "./circlePacking";
 import Paper from '@material-ui/core/Paper';
 import CardContent from '@material-ui/core/CardContent';
 import ReactLoading from "react-loading";
-
+require("./dummy.css");
 
 class DomainD3 extends Component {
 	state = {

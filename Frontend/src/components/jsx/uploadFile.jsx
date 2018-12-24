@@ -54,7 +54,7 @@ class UploadFile extends Component {
 	isLoading() {
 		if (this.state.file === null) {
 			return (
-				<Button type="button" color="disable">Upload</Button>
+				<Button type="button" color="secondary" disabled>Upload</Button>
 			);
 		} else {
 			return (

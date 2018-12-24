@@ -40,7 +40,7 @@ class EgressIngressPage extends Component {
 			total: 0,
 			last: ""
 		}
-		await axios.get("http://localhost:8080/usertable").then((res) => {
+		await axios.get("http://10.3.132.198:8080/usertable").then((res) => {
 			// console.log("DataTable", res.data.requests[0], res.data.requests.length)
 			for(i; i<res.data.requests.length; i++) {
 				dummy['username'] = res.data.requests[i][0]['user']

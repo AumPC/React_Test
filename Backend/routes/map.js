@@ -237,7 +237,7 @@ async function get_count(types, query) {
 
 async function combineDict(obj1, obj2) {
     var totals = Object.assign({}, obj1);;
-    console.log(totals)
+    // console.log(totals)
     Object.keys(obj2).forEach(data => {
         if ( totals[data] != undefined ) {
             totals[data] = totals[data] + obj2[data]

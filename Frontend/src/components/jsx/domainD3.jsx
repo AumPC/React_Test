@@ -21,7 +21,7 @@ class DomainD3 extends Component {
 	};
 
 	async get_data() {
-		await axios.get("http://localhost:8080/domain").then((res) => {
+		await axios.get("http://10.3.132.198:8080/domain").then((res) => {
 			this.setState({data: res.data});
 		})
 		.catch(error => this.setState({ isLoadingTable: true }));

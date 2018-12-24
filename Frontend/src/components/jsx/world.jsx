@@ -24,7 +24,7 @@ class World extends Component {
 	};
 
 	async get_world() {
-		await axios.get("http://localhost:8080/map").then((res) => {
+		await axios.get("http://10.3.132.198:8080/map").then((res) => {
 			this.setState({egress: res.data.Egress, ingress: res.data.Ingress, total: res.data.Total, map: "total"})
 		})
 		.catch(error => this.setState({ isLoadingTable: true }));

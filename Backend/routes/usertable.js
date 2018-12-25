@@ -3,11 +3,13 @@ var router = express.Router()
 var axios = require('axios')
 
 
-async function query_table_request(interval, sort) {
+async function query_table_request(startDate, endDate) {
     let egressRes = await get_count("Egress", [{ "regexp": { "src_ip.keyword": "158.108.*" } },
-                                               { "regexp": { "src_ip.keyword": "10.*" } } ])
+                                               { "regexp": { "src_ip.keyword": "10.*" } } ],
+                                               startDate, endDate)
     let ingressRes = await get_count("Ingress", [{ "regexp": { "dst_ip.keyword": "158.108.*" } },
-                                                 { "regexp": { "dst_ip.keyword": "10.*" } } ])
+                                                 { "regexp": { "dst_ip.keyword": "10.*" } } ],
+                                                 startDate, endDate)
     let users = await Object.keys((egressRes)).concat(Object.keys((ingressRes))).reduce(function (a, b) {
         if (a.indexOf(b) < 0) a.push(b);
         return a;
@@ -40,7 +42,7 @@ async function query_table_request(interval, sort) {
     }
 }
 
-async function get_count(types, query) {
+async function get_count(types, query, startDate, endDate) {
     if( types == "Egress") {
         var ip = "src_ip"
     } else {
@@ -49,9 +51,18 @@ async function get_count(types, query) {
     this.queryCount = await {
         "query": {
             "bool": {
-                "should": [query]
-            }
-        },
+              "should": [ query ],
+              "minimum_should_match" : 1,
+              "must": [{
+                "range": {
+                  "req_time_human": {
+                    "gte": startDate,
+                    "lte": endDate
+                  }
+                },
+              }],
+            },
+          },
         "size": 1,
         "aggs": {
             "user_group": {
@@ -95,9 +106,9 @@ async function get_count(types, query) {
 }
 
 router.get('/', (req, res) => {
-    const interval = req.query.interval;
-    const sort = req.query.sort;
-    query_table_request(interval, sort).then((table) => {
+    var startDate = (req.query.startDate) ? req.query.startDate : "2017-04-09T20:00:00.000Z"
+    var endDate = (req.query.endDate) ? req.query.endDate : "now"
+    query_table_request(startDate, endDate).then((table) => {
         res.setHeader('Content-Type', 'application/json');
         res.send(table);
     });

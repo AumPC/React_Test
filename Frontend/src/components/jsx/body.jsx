@@ -7,7 +7,6 @@ import axios from 'axios';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import CardContent from '@material-ui/core/CardContent';
-import DateTimePicker from 'react-datetime-picker';
 
 class Body extends Component {
 
@@ -61,7 +60,7 @@ class Body extends Component {
 	};
 
 	checkBarchartsIsLoading() {
-		if (this.state.isLoadingDate) {
+		if (this.state.isLoadingMethod || this.state.isLoadingReq) {
 			return <ReactLoading type="spinningBubbles" color="black" />;
 		} else {
 			// console.log("barchart", this.state.dataReq, this.state.dataDateTimeSeries)
@@ -77,7 +76,7 @@ class Body extends Component {
 	};
 
 	checkTimePickerIsLoading() {
-		if (this.state.isLoadingMethod || this.state.isLoadingReq) {
+		if (this.state.isLoadingDate) {
 			return <ReactLoading type="spinningBubbles" color="black" />;
 		} else {
 			// console.log("barchart", this.state.dataReq, this.state.dataDateTimeSeries)

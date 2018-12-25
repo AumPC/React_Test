@@ -137,8 +137,8 @@ router.get('/request', (req, res) => {
 });
 
 router.get('/method', (req, res) => {
-  const startDate = req.query.startDate;
-  const endDate = req.query.endDate;
+  var startDate = (req.query.startDate) ? req.query.startDate : "2017-04-09T20:00:00.000Z"
+  var endDate = (req.query.endDate) ? req.query.endDate : "now"
   query_method(startDate, endDate).then((methods) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(methods);
